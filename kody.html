@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>HQC – náučná aplikácia</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        h1, h2 { color: #333; }
+        .control-panel { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px;display: flex;justify-content: center;align-items: center;flex-direction: column; }
+        .input-group { margin-bottom: 15px; }
+        label { font-weight: bold; margin-right: 10px; }
+        input[type="number"] { width: 60px; padding: 5px; }
+        button { background-color: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #27ae60; }
+        button.secondary { background-color: #6c757d; margin-top: 10px; }
+        
+        #matrix-container { margin: 20px 0; }
+        .matrix-row { display: flex; gap: 5px; margin-bottom: 5px; align-items: center; }
+        .matrix-input { width: 20px; text-align: center; font-family: monospace; font-size: 1.2em; padding: 5px; border: 1px solid #ccc; border-radius: 3px; }
+        .row-label { width: 30px; font-weight: bold; color: #555; }
+
+        .matrix-input.one {
+    background-color: #c8f7c5; /* svetlozelená */
+}
+        .results { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);text-align: center; display: none;}
+        .stat-box { display: inline-block; background: #e9ecef; padding: 10px; border-radius: 5px; margin-right: 10px; margin-bottom: 10px; font-weight: bold; }
+        .words-list { font-family: monospace; columns: 2; background: #f8f9fa; padding: 15px; border: 1px solid #ddd; margin-top: 10px; }
+        .error { color: #dc3545; font-weight: bold; }
+        .success { color: #28a745; font-weight: bold; }
+        .warning { color: #ffc107; font-weight: bold; background: #fff3cd; padding: 5px; border-radius: 3px; }
+    </style>
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>Binarne kódy</h2>
+    <a href="index.html">&larr; Späť do menu</a>
+</header>
+
+<main>
+  <h1>Generátor Lineárneho Kódu</h1>
+
+    <div class="control-panel">
+        <div class="input-group">
+            <label for="n-input">n (dĺžka slova):</label>
+            <input type="number" id="n-input" value="21" min="1" max="20">
+            
+            <label for="k-input">k (počet vektorov):</label>
+            <input type="number" id="k-input" value="3" min="1" max="10">
+            
+            <button onclick="createMatrixInputs()">Vytvoriť maticu</button>
+        </div>
+
+        <div id="matrix-container"></div>
+        <button id="calc-btn" style="display:none;" onclick="calculateCode()">Vypočítať kódové slová a vzdialenosť</button>
+    </div>
+
+    <div id="results" class="results">
+        <h2>Výsledky</h2>
+        <div id="independence-status"></div>
+        <br>
+        <div class="stat-box">Minimálna vzdialenosť (d): <span id="min-dist">?</span></div>
+        <div class="stat-box">Počet kódových slov (M): <span id="word-count">?</span></div>
+        
+        <h3>Všetky vygenerované kódové slová:</h3>
+        <div id="codewords-output" class="words-list"></div>
+    </div>
+
+<script>
+    function createMatrixInputs() {
+        const n = parseInt(document.getElementById('n-input').value);
+        const k = parseInt(document.getElementById('k-input').value);
+        const container = document.getElementById('matrix-container');
+        
+        container.innerHTML = '<h3>Zadajte bity generujúcej matice (0 alebo 1):</h3>';
+        
+        for (let i = 0; i < k; i++) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'matrix-row';
+            
+            const label = document.createElement('span');
+            label.className = 'row-label';
+            label.innerText = `v${i+1}:`;
+            rowDiv.appendChild(label);
+
+            for (let j = 0; j < n; j++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'matrix-input';
+                input.maxLength = 1;
+                if(n===21 && k===3){
+                    if(j<(i+1)*7 && j>=i*7){
+                        input.value=1;
+                        input.classList.add('one');
+                    }
+                    else{
+                        input.value=0;
+                    }
+                }
+                else{
+                    input.value = (i === j) ? '1' : '0'; // Predvyplníme niečo rozumné
+                }
+                input.onkeypress = (e) => {
+                    // Povoliť len 0 a 1
+                    if (e.key !== '0' && e.key !== '1') e.preventDefault();
+                };
+                input.onfocus = (e) => e.target.select();
+                rowDiv.appendChild(input);
+            }
+            container.appendChild(rowDiv);
+        }
+        document.getElementById('calc-btn').style.display = 'inline-block';
+        document.getElementById('results').style.display = 'none';
+    }
+
+    function calculateCode() {
+        const n = parseInt(document.getElementById('n-input').value);
+        const k = parseInt(document.getElementById('k-input').value);
+        
+        // 1. Načítanie matice zo vstupov
+        const inputs = document.querySelectorAll('.matrix-input');
+        let G = [];
+        let currentRow = [];
+        
+        for (let i = 0; i < inputs.length; i++) {
+            let val = parseInt(inputs[i].value);
+            if (isNaN(val) || (val !== 0 && val !== 1)) val = 0; // Fallback pre chyby
+            currentRow.push(val);
+            if (currentRow.length === n) {
+                G.push(currentRow);
+                currentRow = [];
+            }
+        }
+
+        // 2. Kontrola lineárnej nezávislosti (Rank matice)
+        const rank = calculateRank(JSON.parse(JSON.stringify(G)), k, n); // Pass copy
+        const isIndependent = (rank === k);
+
+        // 3. Generovanie všetkých slov
+        // Prechádzame čísla od 0 do 2^k - 1, prevedieme na binárne a násobíme maticou
+        let allWords = new Set(); // Set automaticky odstráni duplicity ak sú vektory závislé
+        
+        const totalCombinations = Math.pow(2, k);
+        for (let i = 0; i < totalCombinations; i++) {
+            // i reprezentuje informačný vektor
+            let codeword = new Array(n).fill(0);
+            
+            for (let bit = 0; bit < k; bit++) {
+                // Ak je bit v informačnom slove 1, pripočítame (XOR) príslušný riadok matice
+                if ((i >> bit) & 1) {
+                    for (let col = 0; col < n; col++) {
+                        codeword[col] ^= G[k - 1 - bit][col]; // k-1-bit pre správne poradie
+                    }
+                }
+            }
+            allWords.add(codeword.join(''));
+        }
+
+        // Konverzia Setu späť na pole pre spracovanie
+        const wordsArray = Array.from(allWords).sort();
+
+        // 4. Výpočet minimálnej vzdialenosti
+        // Pre lineárne kódy je min. vzdialenosť rovná minimálnej váhe nenulových slov
+        // Ale pre istotu (a univerzálnosť) porovnáme hrubou silou všetky dvojice
+        let minDistance = n; 
+        if (wordsArray.length > 1) {
+            // Rýchlejšia metóda pre lineárne kódy: min váha nenulových slov
+            minDistance = n;
+            let foundNonZero = false;
+            for (let w of wordsArray) {
+                if (w.indexOf('1') === -1) continue; // Preskoč nulové slovo
+                foundNonZero = true;
+                let weight = 0;
+                for (let char of w) {
+                    if (char === '1') weight++;
+                }
+                if (weight < minDistance) minDistance = weight;
+            }
+            if (!foundNonZero) minDistance = 0; // Iba nulové slová
+        } else {
+            minDistance = 0;
+        }
+
+        // 5. Výpis výsledkov
+        const resultsDiv = document.getElementById('results');
+        const statusDiv = document.getElementById('independence-status');
+        
+        resultsDiv.style.display = 'block';
+        
+        if (isIndependent) {
+            statusDiv.innerHTML = '<span class="success">✓ Vektory sú lineárne nezávislé.</span>';
+        } else {
+            statusDiv.innerHTML = `<span class="warning">⚠ Vektory sú lineárne ZÁVISLÉ!</span> <br>Skutočná dimenzia kódu je <b>${rank}</b> (namiesto ${k}). Generuje sa menej slov.`;
+        }
+
+        document.getElementById('min-dist').innerText = minDistance;
+        document.getElementById('word-count').innerText = wordsArray.length;
+        
+        const outputDiv = document.getElementById('codewords-output');
+        outputDiv.innerHTML = '';
+        wordsArray.forEach(word => {
+            const div = document.createElement('div');
+            // Zvýrazníme nulové slovo
+            if (word.indexOf('1') === -1) div.style.color = '#aaa';
+            div.innerText = word;
+            outputDiv.appendChild(div);
+        });
+    }
+
+    // Pomocná funkcia: Gaussova eliminácia nad GF(2) pre zistenie hodnosti (Rank)
+    function calculateRank(matrix, rows, cols) {
+        let rank = 0;
+        let col = 0;
+        
+        for (let row = 0; row < rows && col < cols; col++) {
+            // Nájdi pivot v aktuálnom stĺpci
+            let pivot = row;
+            while (pivot < rows && matrix[pivot][col] === 0) {
+                pivot++;
+            }
+            
+            if (pivot < rows) {
+                // Vymeň riadky
+                [matrix[row], matrix[pivot]] = [matrix[pivot], matrix[row]];
+                
+                // Vynuluj ostatné riadky v tomto stĺpci
+                for (let i = 0; i < rows; i++) {
+                    if (i !== row && matrix[i][col] === 1) {
+                        for (let j = col; j < cols; j++) {
+                            matrix[i][j] ^= matrix[row][j];
+                        }
+                    }
+                }
+                rank++;
+                row++;
+            }
+        }
+        return rank;
+    }
+    createMatrixInputs();
+</script>
+</main>
+</body>
+</html>

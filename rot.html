@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rot(v) - Stĺpcová Cirkulantná Matica</title>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <style>
+
+        
+        .container {
+            background: rgb(219, 219, 219);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
+        }
+        .container_viz {
+            background: white;
+        }
+
+        .controls {
+            /*margin-bottom: 20px;
+            text-align: center;*/
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            /* horizontálne vycentruje celý blok */
+            align-items: center;
+            /* zarovná v= a input na stred výšky */
+            gap: 8px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #219150;
+        }
+
+        /* Vizualizácia */
+        #viz-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cell-rect {
+            stroke: #fff;
+            stroke-width: 1.5px;
+            rx: 2;
+        }
+
+        .cell-text {
+            font-family: monospace;
+            font-size: 16px;
+            font-weight: bold;
+            fill: #fff;
+            /* Biely text pre lepší kontrast na farebnom pozadí */
+            pointer-events: none;
+        }
+
+        .highlight-border {
+            fill: none;
+            stroke: #e74c3c;
+            stroke-width: 3;
+            stroke-dasharray: 5, 5;
+        }
+
+        .axis-label {
+            font-size: 12px;
+            fill: #7f8c8d;
+            font-weight: bold;
+        }
+
+        .columns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            /* medzera medzi stĺpcami */
+        }
+
+        .column {
+            background: rgb(239, 239, 239);
+            flex: 1;
+            /* oba stĺpce rovnaká šírka */
+        }
+
+
+
+        .math-block {
+            margin-top: 15px;
+        }
+
+        summary {
+            cursor: pointer;
+            list-style: none;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+            /* skryje šípku */
+        }
+
+        .hint {
+            display: block;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .math-explanation {
+            margin-top: 15px;
+            background: #f5f7fa;
+            border-left: 4px solid #4a90e2;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+
+
+
+
+
+        .matrices-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .matrix {
+            display: inline-grid;
+            gap: 6px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+
+        .matrix.vector {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .matrix.square {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .matrix.result {
+            grid-template-columns: repeat(4, 1fr);
+            background: #e7f5ff;
+            border-color: #4dabf7;
+        }
+
+        .matrix.result2 {
+            grid-template-columns: repeat(7, 1fr);
+            background: #e7f5ff;
+            border-color: #4dabf7;
+        }
+
+        .result3 {
+            margin-bottom: 5px;
+            padding: 10px;
+            border-radius: 12px;
+            border: 2px solid #dee2e6;
+            background: #e7fff3;
+            border-color: #4df767;
+            display: inline-block;
+
+        }
+
+        .ponaucenie {
+            font-size: 1.3rem;
+            /* veľké písmo */
+            font-weight: 500;
+            /* hrubé */
+            color: white;
+
+            margin-bottom: 5px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            background: #ffd43b;
+            border-color: #fab005;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+        }
+
+        .matrix.bezpozadia {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .cell {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .cell2-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .cell2 {
+            font-size: 90%;
+            background: rgb(219, 219, 219);
+            border: 2px solid rgb(219, 219, 219);
+            padding: 0px 2px;
+            display: inline-block;
+            border-radius: 6px;
+        }
+
+        .cell2.highlight {
+            background: #ffd43b;
+            border-color: #fab005;
+        }
+
+        .cell.highlight {
+            background: #ffd43b;
+            border-color: #fab005;
+        }
+
+        .cell.result-cell {
+            cursor: pointer;
+        }
+
+        .cell.result-cell:hover {
+            background: #74c0fc;
+            border-color: #4dabf7;
+            transform: scale(1.05);
+        }
+
+        .operator {
+            font-size: 28px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .calculation-box {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 5px;
+            min-height: 88px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .matrix-label {
+            text-align: center;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .math-formula {
+            display: inline-block;
+            padding: 0px 10px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .math_block {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+            /* medzera medzi stĺpcami */
+        }
+
+        .formula {
+            padding: 4px;
+            border: 2px solid;
+            background: #ffd43b;
+            border-color: #fab005;
+            border-radius: 6px;
+
+        }
+    </style>
+     <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h2>Cirkulantná matica: rot(v)</h2>
+        <a href="index.html">&larr; Späť do menu</a>
+    </header>
+
+<main>
+    <div class="container">
+        <h2>Teoria</h2>
+        <p>V tejto variácii funkcie \( \text{rot}(v) \) vezmeme vstupný vektor $$v = (v_0, v_1, \dots, v_{n-1})^T$$ a
+            použijeme ho ako <strong>prvý stĺpec</strong> matice.</p>
+        <p>Nasledujúce stĺpce vzniknú cyklickým posunom (rotáciou) hodnôt smerom <strong>nadol</strong>.</p>
+            
+        <div class="columns">
+        <div class="result3">Matematický zápis
+        $$
+        \text{rot}(v) =
+        \begin{pmatrix}
+        v_0 & v_{n-1} & v_{n-2} & \dots & v_1 \\
+        v_1 & v_0 & v_{n-1} & \dots & v_2 \\
+        v_2 & v_1 & v_0 & \dots & v_3 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots \\
+        v_{n-1} & v_{n-2} & v_{n-3} & \dots & v_0
+        \end{pmatrix}
+        $$
+    </div></div>
+        
+    </div>
+
+    <div class="container container_viz" id="viz-container">
+        <h2>Vizualizácia</h2>
+        <p>Zadaj vektor (napr. bity alebo čísla oddelene čiarkou). </p>
+
+        <div class="controls">
+            <p>v=</p>
+            <input type="text" id="vectorInput" value="v0,v1,v2,v3,v4">
+            <button onclick="updateViz()">Vygenerovať</button>
+        </div>
+        <p>Zo zadaného vektora v vznikne matica rot(v):</p>
+        <div id="d3-canvas"></div>
+    </div>
+    <div class="container">
+        <h2>Prečo použivať cirkulantné matice?</h2>
+        <h3>Pretože platí \(\text{ v } \mathbb{F}[X]/(X^{n}-1)\):</h3>
+        <details class="math_block">
+            <summary class="math-formula">
+                \[
+                x \cdot y = x \times \operatorname{rot}(y)^T
+                \]
+            </summary>
+
+            <div class="math-explanation">
+                <strong>Slovné vysvetlenie:</strong><br>
+                Súčin dvoch polynómov \(x\) a \(y\) \(\text{ v } \mathbb{F}[X]/(X^{n}-1)\) môžeme zapísať
+                ako násobenie vektora \(x\) s transponovanou
+                cirkulantnou maticou vytvorenou z vektora \(y\).
+            </div>
+        </details>
+        <p>Príklad:</p>
+
+        <div class="math_block">
+            <div class="result3">Majme \(\text{ v } \mathbb{F_2}[x]/(x^{4}-1)\): $$x=x^3+x+1=>(1,1,0,1)$$
+                $$y=x^2+x+1=>(1,1,1,0)$$</div>
+        </div>
+
+        <div class="columns">
+            <div class="container column">
+                <h2>\( x \times \operatorname{rot}(y)^T\)</h2>
+                <div class="matrices-container">
+                    <div>
+                        <div class="matrix-label">Vektor x</div>
+                        <div class="matrix vector" id="vectorMatrix"></div>
+                    </div>
+
+                    <div class="operator">×</div>
+
+                    <div>
+                        <div class="matrix-label">Matica \(\operatorname{rot}(y)^T\)</div>
+                        <div class="matrix square" id="squareMatrix"></div>
+                    </div>
+
+
+                </div>
+                <div class="calculation-box" id="calculationBox">
+                    <p class="hint">Ukážte kurzorom na prvok vo výsledku</p>
+                </div>
+                <div class="matrix-label">Výsledok</div>
+                <div class="columns">
+                    <div class="matrix result" id="resultMatrix"></div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="container column" title="Toto je výsledný polynóm po redukcii modulo (x⁴−1)">
+                <h2>\(x \cdot y\)</h2>
+                $$
+                (1x^3+0x^2+1x+1)\cdot (0x^3+1x^2+1x+1)=
+                $$
+                <div class="cell2-wrapper">
+                    <div class="cell2" id="a0">$$=1\cdot 1+1x\cdot 0x^3+0x^2\cdot 1x^2+1x^3\cdot 1x$$</div>
+                    <div class="cell2" id="a1">$$+1\cdot 1x+1x\cdot 1+0x^2\cdot 0x^3+1x^3\cdot 1x^2$$</div>
+                    <div class="cell2" id="a2">$$+1\cdot 1x^2+1x\cdot 1x+0x^2\cdot 1+1x^3\cdot 0x^3$$</div>
+                    <div class="cell2" id="a3">$$+1\cdot 0x^3+1x\cdot 1x^2+0x^2\cdot 1x+1x^3\cdot 1$$</div>
+                </div>
+                <div class="matrix-label">V tomto okruhu platí:</div>
+                <div class="columns">
+                    <div class="result3">$$x^4\equiv 1, x^5 \equiv x, x^6 \equiv x^2, x^7 \equiv x^3...$$</div>
+                </div>
+                <div class="matrix-label">Výsledok</div>
+                <div class="columns">
+                    <div class="matrix result2">
+                        <div class="cell result-cell" id="0" onmouseenter="showCalculation(0)"
+                            onmouseleave="clearHighlights()">$$0$$</div>
+                        <div class="cell">$$+$$</div>
+                        <div class="cell result-cell" id="1" onmouseenter="showCalculation(1)"
+                            onmouseleave="clearHighlights()">$$1x$$</div>
+                        <div class="cell">$$+$$</div>
+                        <div class="cell result-cell" id="2" onmouseenter="showCalculation(2)"
+                            onmouseleave="clearHighlights()">$$0x^2$$</div>
+                        <div class="cell">$$+$$</div>
+                        <div class="cell result-cell" id="3" onmouseenter="showCalculation(3)"
+                            onmouseleave="clearHighlights()">$$0x^3$$</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="math_block">
+            <div class="ponaucenie">Vidíme, že: \( x \times \operatorname{rot}(y)^T\) je omnoho elegantnejši a lahšie
+                programovatelný spôsob výpočtu.</div>
+        </div>
+    </div>
+
+    <script>
+        // --- LOGIKA GENEROVANIA MATICE (Stĺpcová verzia) ---
+        function getColumnCirculantMatrix(vector) {
+            const n = vector.length;
+
+            // Inicializácia prázdnej matice n x n
+            // Vytvoríme pole riadkov, kde každý riadok je pole
+            let matrix = Array.from({ length: n }, () => Array(n).fill(null));
+
+            // Pracovný vektor (aktuálny stĺpec) - začíname originálom
+            let currentColumn = [...vector];
+
+            // Prechádzame stĺpce j od 0 do n-1
+            for (let j = 0; j < n; j++) {
+
+                // Zapíšeme aktuálny stĺpec do matice
+                for (let i = 0; i < n; i++) {
+                    matrix[i][j] = currentColumn[i];
+                }
+
+                // Rotácia vektora pre ďalší stĺpec (posun dole)
+                // Posledný prvok (pop) ide na začiatok (unshift)
+                const lastElement = currentColumn.pop();
+                currentColumn.unshift(lastElement);
+            }
+
+            return matrix;
+        }
+
+
+        function drawViz(vectorData) {
+            const container = d3.select("#d3-canvas");
+            container.html(""); // Reset
+
+            const matrixData = getColumnCirculantMatrix(vectorData);
+            const n = vectorData.length;
+            const cellSize = 50;
+            const width = n * cellSize + 60;
+            const height = n * cellSize + 60;
+
+            const svg = container.append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            // Opravená doména pre lepšie farby
+            /* const colorScale = d3.scaleSequential()
+                 .domain([0, n]) 
+                 .interpolator(d3.interpolateRainbow);*/
+
+            const colorScale = d3.scaleLinear()
+                .domain([0, n - 1])            // index od 0 po n-1
+                .range(["#86baf0", "#003366"]); // svetlomodrá → tmavomodrá
+
+
+            const g = svg.append("g")
+                .attr("transform", "translate(40, 40)");
+
+            // 1. Vytvorenie riadkov
+            const rows = g.selectAll(".row")
+                .data(matrixData)
+                .enter()
+                .append("g")
+                .attr("transform", (d, i) => `translate(0, ${i * cellSize})`);
+
+            // 2. Vytvorenie buniek
+            const cells = rows.selectAll(".cell")
+                .data((row, rowIndex) => row.map((val, colIndex) => ({
+                    value: val,
+                    r: rowIndex,
+                    c: colIndex
+                })))
+                .enter()
+                .append("g")
+                .attr("transform", (d, i) => `translate(${i * cellSize}, 0)`)
+                .style("opacity", 0); // Začneme ako neviditeľní
+
+            // 3. ANIMÁCIA: Postupné objavovanie
+            cells.transition()
+                .duration(500) // Trvanie animácie jednej bunky
+                .delay((d) => {
+                    // d.r = index riadku
+                    // d.c = index stĺpca
+                    // Poradie podľa diagonálneho „posúvania vektora“
+                    const n = vectorData.length;
+                    const step = (n - d.c + d.r) % n + d.c * n; // posun podľa diagonály
+                    return step * 100; // oneskorenie podľa poradia
+                })
+                //.delay((d) => d.c * 200 + d.r * 50) // Oneskorenie podľa stĺpca a riadku
+                .style("opacity", 1);
+
+            // Do tohto "g" (bunky) teraz pridáme grafiku
+            cells.each(function (d) {
+                const cellGroup = d3.select(this);
+                const originalIndex = (d.r - d.c + n) % n;
+
+                // Obdĺžnik
+                cellGroup.append("rect")
+                    .attr("class", "cell-rect")
+                    .attr("width", cellSize - 2)
+                    .attr("height", cellSize - 2)
+                    .attr("fill", colorScale(originalIndex));
+
+                // Text
+                cellGroup.append("text")
+                    .attr("class", "cell-text")
+                    .attr("x", cellSize / 2)
+                    .attr("y", cellSize / 2)
+                    .attr("dy", ".35em")
+                    .attr("text-anchor", "middle")
+                    .text(d.value);
+
+                // Zvýraznenie vektora v
+                if (d.c === 0) {
+                    cellGroup.append("rect")
+                        .attr("width", cellSize - 2)
+                        .attr("height", cellSize - 2)
+                        .attr("fill", "none")
+                        .attr("stroke", "red")
+                        .attr("stroke-width", 3);
+                }
+            });
+
+            // Popisky osí (tiež môžeme animovať)
+            const labels = g.append("g").style("opacity", 0);
+
+            // ... tu by išiel kód pre popisky (rovnaký ako predtým) ...
+            // Na konci ich len zobrazíme:
+            labels.transition().delay(n * 250).duration(1000).style("opacity", 1);
+        }
+
+        function updateViz() {
+            const input = document.getElementById("vectorInput").value;
+            // Rozdelenie stringu na pole, orezanie medzier
+            const vector = input.split(/[\s,]+/).filter(x => x);
+
+            if (vector.length > 0) {
+                // Potrebujeme pridať index riadku do dát pre vizualizáciu
+                drawViz(vector);
+            }
+        }
+
+        // Init
+        updateViz();
+
+        //stlpce-nasobenie matice a vektora
+        const vector = [1, 1, 0, 1];
+        const matrix = [
+            [1, 1, 1, 0],
+            [0, 1, 1, 1],
+            [1, 0, 1, 1],
+            [1, 1, 0, 1],
+        ];
+
+        let result = [];
+
+        function calculateResult() {
+            result = [];
+            for (let col = 0; col < 4; col++) {
+                let sum = 0;
+                for (let i = 0; i < 4; i++) {
+                    sum += vector[i] * matrix[i][col];
+                }
+                result.push(sum % 2);
+            }
+        }
+
+
+        function initializeMatrices() {
+            const vectorDiv = document.getElementById('vectorMatrix');
+            const squareDiv = document.getElementById('squareMatrix');
+            const resultDiv = document.getElementById('resultMatrix');
+            //const polyResultDiv = document.getElementById('polyResultCells');
+
+            vectorDiv.innerHTML = '';
+            squareDiv.innerHTML = '';
+            resultDiv.innerHTML = '';
+            //polyResultDiv.innerHTML = '';
+
+            vector.forEach((val, i) => {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.textContent = val;
+                cell.id = `v${i}`;
+                vectorDiv.appendChild(cell);
+            });
+
+            matrix.forEach((row, i) => {
+                row.forEach((val, j) => {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.textContent = val;
+                    cell.id = `m${i}${j}`;
+                    squareDiv.appendChild(cell);
+                });
+            });
+
+            calculateResult();
+
+            const powers = ['x⁰', 'x¹', 'x²', 'x³'];
+
+            result.forEach((val, i) => {
+                // Matrix result cell
+                const cell = document.createElement('div');
+                cell.className = 'cell result-cell';
+                cell.textContent = val;
+                cell.id = `r${i}`;
+
+                cell.addEventListener('mouseenter', () => showCalculation(i));
+                cell.addEventListener('mouseleave', clearHighlights);
+
+                resultDiv.appendChild(cell);
+
+            });
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.classList.remove('highlight');
+            });
+            document.querySelectorAll('.cell2').forEach(cell => {
+                cell.classList.remove('highlight');
+            });
+
+            document.getElementById('calculationBox').innerHTML =
+                '<p class="hint">Ukážte kurzorom na prvok vo výsledku</p>';
+
+            //document.getElementById('polySteps').innerHTML = 
+            //  '<p class="hint">Ukážte kurzorom na prvok vo výsledku</p>';
+        }
+
+        function showCalculation(col) {
+            clearHighlights();
+
+            // Highlight matrix cells
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`v${i}`).classList.add('highlight');
+                document.getElementById(`m${i}${col}`).classList.add('highlight');
+            }
+            document.getElementById(`${col}`).classList.add('highlight');
+            document.getElementById(`r${col}`).classList.add('highlight');
+            document.getElementById(`a${col}`).classList.add('highlight');
+            // Matrix calculation
+            let terms = [];
+            let sum = 0;
+
+            for (let i = 0; i < 4; i++) {
+                //if (vector[i] === 1) {
+                    terms.push(`${vector[i]} × ${matrix[i][col]}`);
+                    sum += matrix[i][col]*vector[i];
+                //}
+            }
+
+            const calcBox = document.getElementById('calculationBox');
+            calcBox.innerHTML = `
+                <div style="text-align: center;">
+                    <div><strong>Výpočet koeficientu x${col === 0 ? '⁰' : col === 1 ? '¹' : col === 2 ? '²' : '³'}:</strong></div>
+                    <div class="formula">${terms.join(' + ')} = ${sum}</div>
+                    <div><strong>Modulo 2:</strong> ${sum} mod 2 = <strong>${result[col]}</strong></div>
+                </div>
+            `;
+        }
+
+        initializeMatrices();
+
+    </script>
+</main>
+</body>
+
+</html>

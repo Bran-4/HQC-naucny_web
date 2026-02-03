@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>HQC – náučná aplikácia</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+       /* body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        header {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }*/
+
+        nav {
+            max-width: 1100px;
+            margin: auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #222;
+        }
+
+       /* main {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 24px;
+        }*/
+
+        /* ===== INTRO ===== */
+        .intro {
+            background: linear-gradient(135deg, #ffffff, #f1fff6);
+            border-left: 6px solid #4df767;
+            border-radius: 14px;
+            padding: 28px 32px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            margin-bottom: 50px;
+        }
+
+        .intro h2 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 22px;
+            color: #222;
+        }
+
+        .intro p {
+            margin: 0;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        /* ===== STEPS ===== */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .step {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 26px 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .step::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(77,247,103,0.15), transparent);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+        }
+
+        .step:hover::before {
+            opacity: 1;
+        }
+
+        .step-number {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4df767;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #222;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>HQC</h2>
+</header>
+
+<main>
+    <div class="intro">
+        <h2>Čo je HQC?</h2>
+        <p>
+            HQC je post-kvantový kryptosystém založený na kódovej kryptografii.
+            Je navrhnutý tak, aby odolával útokom kvantových počítačov a patrí
+            medzi kandidátov novej generácie bezpečných kryptografických schém.
+        </p>
+    </div>
+    <h2>Kroky na pochopenie HQC:</h2>
+    <div class="steps">
+        <a href="rot.html" class="step">
+            <div class="step-number">KROK 1</div>
+            <div class="step-title">Cirkulantná matica</div>
+        </a>
+
+        <a href="hqcdemo.html" class="step">
+            <div class="step-number">KROK 2</div>
+            <div class="step-title">Demo HQC kryptosystému</div>
+        </a>
+
+        <a href="preco-hqc.html" class="step">
+            <div class="step-number">KROK 3</div>
+            <div class="step-title">Prečo HQC funguje</div>
+        </a>
+    </div>
+</main>
+
+</body>
+</html>
