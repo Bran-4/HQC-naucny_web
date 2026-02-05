@@ -28,7 +28,7 @@
             padding: 10px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-
+            margin: 10px 0px
         }
 
 
@@ -83,6 +83,7 @@
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: bold;
+            margin: 4px 0px;
         }
 
         button:hover {
@@ -144,6 +145,21 @@
             border-right: none;
             border-left: 6px solid #222;
         }
+
+        .small-input {
+    width: 3ch;   /* šírka cca na 3 znaky */
+    text-align: center;
+    border-radius: 4px;
+}
+.ok {
+    color: green;
+    font-weight: bold;
+}
+
+.err {
+    color: red;
+    font-weight: bold;
+}
     </style>
 </head>
 
@@ -165,12 +181,24 @@
                     <h2>Bob</h2>
                     <div class="containervnutro">
                         <div class="continervnutro">
-                            <b>Určíme:</b><br>
+                            <b>Určíme verejné parametre:</b><br>
                             $$n=21 \text{, }k=3$$
                         </div>
-                        <div style="display: flex;
-    justify-content: center;
-    align-items: center;  "><b>G=</b><div id="g-display" class="matice"></div></div>
+                        <div class="tooltip left">
+                            <div style="display: flex;
+                                                justify-content: center;
+                                                align-items: center;  "><b>G=</b>
+                                <div id="g-display" class="matice"></div><a href="kody.html"
+                                    style="margin:3px; background: #1a58d5; border-radius: 6px; color:white;padding:4px;">Vlastnosti G</a>
+                            </div>
+                            <div class="tooltip-text">
+                                počet stlpcov=n=21<br>
+                                počet riadkov=k=3<br>
+                                Generuje kód, ktorý dokáže opraviť 3 chyby.
+                    
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
                         <div>
                             <div class="tooltip left">
                                 <b>h=</b>
@@ -183,12 +211,13 @@
                             </div>
                             <button onclick="generateRandomH()">Generovať nové h</button>
                         </div>
+                        <div>\( w= \)
+                            <input type="number" id="w-input" value="1" class="small-input" min="0" max="9"> 
+                        \(w_e=\)<input type="number" id="w_e-input" value="1" class="small-input"  min="0" max="9"> 
+                        \(w_r=\)<input type="number" id="w_r-input" value="1" class="small-input"  min="0" max="9"></div>
+                        <div id="check-msg"></div>
+                        <button onclick="aplikuj_vahy()">Aplikovať nové váhy</button>
                     </div>
-                    <p class="info" style="margin-top:20px;">
-                        <strong>Parametre:</strong><br>
-                        n = 15 (dĺžka vektora)<br>
-                        Pravdepodobnosť bitu: 50% pre 0 / 50% pre 1
-                    </p>
                 
                     <div id="roth-display"
                         style="font-family: monospace; letter-spacing: 3px; background: #cfcea6; padding: 15px; white-space: pre; border-radius: 4px;text-align: center;">
@@ -262,7 +291,7 @@
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
     ];
     let roth = [];
-    const w = 1;
+    let w = 1;
     let x = [];
     let y = [];
     let pomocny_s = [];
@@ -295,6 +324,26 @@
             matrix.push(rotatedRow);
         }
         return matrix;
+    }
+    function aplikuj_vahy(){
+        w = Number(document.getElementById('w-input').value);
+        w_e=Number(document.getElementById('w_e-input').value);
+        w_r=Number(document.getElementById('w_r-input').value);
+        const msg = document.getElementById('check-msg');
+        if(w+w_e+w_r>3){
+            msg.innerHTML =
+    "CHYBA: musí platiť:" +
+    "w(x · r2 + r1 · y + e) ≤ 3 = počet chýb, ktoré vie kód generovaný G opraviť.<br>" +
+    "Dešifrovanie nie je spoľahlivé.";
+            msg.className = "err";
+        }
+        else{
+             msg.textContent = "Dešifrovanie je možné";
+            msg.className = "ok";
+        }
+        generatenoveXY();
+        generatenove_e();
+        generatenoveR();
     }
 
     function generateRandomH() {
