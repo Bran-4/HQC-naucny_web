@@ -71,6 +71,7 @@
             display: inline-block;
             margin: 3px 3px;
             font-size: 1rem;
+            line-height: 1.3;
         }
 
 
@@ -160,6 +161,7 @@
     color: red;
     font-weight: bold;
 }
+
     </style>
 </head>
 
@@ -180,10 +182,8 @@
                 <div class="container column">
                     <h2>Bob</h2>
                     <div class="containervnutro">
-                        <div class="continervnutro">
-                            <b>Určíme verejné parametre:</b><br>
+                            <b>Určíme verejné parametre:</b>
                             $$n=21 \text{, }k=3$$
-                        </div>
                         <div class="tooltip left">
                             <div style="display: flex;
                                                 justify-content: center;
@@ -218,16 +218,32 @@
                         <div id="check-msg"></div>
                         <button onclick="aplikuj_vahy()">Aplikovať nové váhy</button>
                     </div>
-                
-                    <div id="roth-display"
-                        style="font-family: monospace; letter-spacing: 3px; background: #cfcea6; padding: 15px; white-space: pre; border-radius: 4px;text-align: center;">
+                    
+                     <div class="containervnutro">
+                         <b>Zvolíme (Bobov) súkromný kľúč:</b>
+                     <div class="tooltip left">   
+                    <div class="containervnutro" style="margin: 0px;padding:0px;">
+                     <div>
+                        <b>x=</b><div id="x-display" class="vector-display" style="background: #3afef4;">0000000000000000</div>
+                     </div>
+                     <div>
+                        <b>y=</b><div id="y-display" class="vector-display" style="background: #2dc8c1;">0000000000000000</div>
+                     </div>
                     </div>
-                    <button onclick="generatenoveXY()">Generovať nové h</button>
-                    x
-                    <div id="x-display" class="vector-display">0000000000000000</div>
-                    y
-                    <div id="y-display" class="vector-display">0000000000000000</div>
-                    pomoc s
+                     <div class="tooltip-text">
+                                    dlžka vektorov=n=21<br>
+                                    Váha vektorov=w<br>
+                                    Pozícia jednotiek je náhodná.
+                                    <span class="tooltip-arrow"></span>
+                                </div>
+                     </div>
+                     <button onclick="generatenoveXY()">Generovať nové x a y</button>
+                     </div>
+
+                      <div class="containervnutro">
+                         <b>Vypočítame s(súčasť public key)</b>
+                            <div id="roth-display" class="matice" style=" line-height: 0.75;font-size: 0.7rem; letter-spacing: 2px;margin: 2px;"></div>
+                        </div>
                     <div id="pomoc-display" class="vector-display">0000000000000000</div>
                     s
                     <div id="s-display" class="vector-display">0000000000000000</div>
@@ -329,6 +345,16 @@
         w = Number(document.getElementById('w-input').value);
         w_e=Number(document.getElementById('w_e-input').value);
         w_r=Number(document.getElementById('w_r-input').value);
+
+        if(w>9){
+            w=9;
+        } if(w_e>9){
+            w_e=9;
+        } if(w_r>9){
+            w_r=9;
+        }
+
+
         const msg = document.getElementById('check-msg');
         if(w+w_e+w_r>3){
             msg.innerHTML =
