@@ -193,6 +193,33 @@
   border-bottom: 40px solid transparent;
   border-right: 40px solid #ffffff; 
 }
+
+.bit-btn {
+        font-size: 1rem;
+        font-family: monospace;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        padding:10px;
+        margin:5px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        color:#222
+    }
+    .bit-btn:hover{
+        background: #bababa;
+    }
+
+    /* Štát pre 0 */
+    .state-0 {
+        background-color: #cecece; /* Červená */
+    }
+
+    /* Štát pre 1 */
+    .state-1 {
+        background-color: #fff59d; /* Zelená */
+    }
+
     </style>
 </head>
 
@@ -347,7 +374,7 @@
                             <div class="containervnutro" style="margin: 0px;padding:0px;">
                                 <div>
                                     <b>\(r_1\)=</b>
-                                     <div id="r1-display" class="vector-display" style="background: #e57bff;">0000000000000000</div>
+                                     <div id="r1-display" class="vector-display" style="background: #e8a4f9;">0000000000000000</div>
                                 </div>
                                 <div>
                                     <b>\(r_2\)=</b>
@@ -363,9 +390,58 @@
                         </div>
                         <button onclick="generatenoveR()">Generovať nové r_1 r_2</button>
                     </div>
+
+                     <div class="containervnutro">
+                        <b>Vypočítame u</b>
+                        <div style="margin:8px"> \(u=r_1+r_2\cdot h\) <a href="rot.html"
+                                    style="margin:10px 20px; background: #1a58d5; border-radius: 6px; color:white;padding:4px;">Násobenie polynómov pomocou rot matíc</a>
+                        </div>
+                        
+                        <div style="display:flex;align-items:center;gap:6px;"><b>u=</b>
+                             <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(r_1\)
+                             <div id="r1-display2" class="vector-display" style="background: #e8a4f9;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                        0000000000000000</div></div><b>+</b>
+                                         <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(r_2\)
+                            <div id="r2-display2" class="vector-display" style="background: #b35dc9;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                        0000000000000000</div></div><b>x</b>
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(rot(h)^T\)
+                                <div id="roth-display2" class="matice"
+                                    style=" line-height: 0.75;font-size: 0.7rem; letter-spacing: 2px;margin: 1px;background:#7aff55;">
+                                </div>
+                            </div>
+                        </div>
+                         <div style="display:flex;align-items:center;gap:6px;margin:10px"><b>u=</b>
+                             <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(r_1\)
+                             <div id="r1-display3" class="vector-display" style="background:#e8a4f9;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
+                                        0000000000000000</div></div><b>+</b>
+                                         <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(r_2\cdot h \text{ alebo } r_2\times rot(h)^T \)
+                            <div id="pomoc_u-display" class="vector-display" style="background: #8f5dc9;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
+                                        0000000000000000</div></div>
+                        </div>
+                         <div style="display:flex;align-items:center;gap:6px;"><b>u=</b>
+                        <div id="u-display" class="vector-display" style="background: #c39a71;">0000000000000000</div></div>
+                    </div>
+                     <div class="containervnutro">
+                        <b>Zvolíme (Alicinu) správu, ktorú chceme bezpečne poslať:</b>
+                         <div class="tooltip right">
+                           <div><b>m=</b>
+                                <button id="bit-toggle" class="bit-btn state-1" onclick="zmen_spravu(this,0)">1</button>
+                                <button id="bit-toggle" class="bit-btn state-0" onclick="zmen_spravu(this,1)">0</button>
+                                <button id="bit-toggle" class="bit-btn state-1" onclick="zmen_spravu(this,2)">1</button>
+                           </div>
+                            <div class="tooltip-text">
+                                dlžka správy=k=3<br>
+                                Pri skutočnom HQC je k dostatočne velké číslo.
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                     </div>
                    
-                    <div id="pomoc_u-display" class="vector-display">0000000000000000</div>u
-                    <div id="u-display" class="vector-display">0000000000000000</div>mG
                     <div id="mG-display" class="vector-display">0000000000000000</div>
                     <div id="rots-display"
                         style="font-family: monospace; letter-spacing: 3px; background: #cfcea6; padding: 15px; white-space: pre; border-radius: 4px;text-align: center;">
@@ -472,6 +548,19 @@
         generatenove_e();
         generatenoveR();
     }
+    function zmen_spravu(tlacitko,index){
+        m[index]=(m[index]+1)%2;
+        if (tlacitko.innerText === "0") {
+            tlacitko.innerText = "1";
+            tlacitko.classList.remove("state-0");
+            tlacitko.classList.add("state-1");
+        } else {
+            tlacitko.innerText = "0";
+            tlacitko.classList.remove("state-1");
+            tlacitko.classList.add("state-0");
+        }
+        update();
+    }
 
     function generateRandomH() {
         h = [];
@@ -512,6 +601,8 @@
         final = addVectors(v, uy);
         document.getElementById('h-display').innerText = h.join('');
         document.getElementById('roth-display').innerText = roth.map(row => row.join('')).join('\n');
+         document.getElementById('roth-display2').innerText = roth.map(row => row.join('')).join('\n');
+
         document.getElementById('x-display').innerText = x.join('');
         document.getElementById('x-display2').innerText = x.join('');
         document.getElementById('x-display3').innerText = x.join('');
@@ -521,7 +612,10 @@
         document.getElementById('s-display').innerText = s.join('');
         document.getElementById('e-display').innerText = e.join('');
         document.getElementById('r1-display').innerText = r_1.join('');
+         document.getElementById('r1-display2').innerText = r_1.join('');
+          document.getElementById('r1-display3').innerText = r_1.join('');
         document.getElementById('r2-display').innerText = r_2.join('');
+         document.getElementById('r2-display2').innerText = r_2.join('');
         document.getElementById('pomoc_u-display').innerText = pomocny_u.join('');
         document.getElementById('u-display').innerText = u.join('');
         document.getElementById('mG-display').innerText = mG.join('');
