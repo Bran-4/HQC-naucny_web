@@ -28,7 +28,7 @@
             padding: 10px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            margin: 10px 0px
+            margin: 10px 0px;
         }
 
 
@@ -163,63 +163,71 @@
             color: red;
             font-weight: bold;
         }
-.arrow-left {
-  position: relative;
-  background: #ffffff;
-  color: #333; /* Text tmavejší, aby bol na bielej vidieť */
-  height: 80px; /* Pevná výška pre presné lícovanie */
-  line-height: 40px; /* Vycentruje text vertikálne */
-  padding: 0 20px; /* Padding len po bokoch */
-  display: inline-block;
-  font-family: 'Segoe UI', sans-serif;
-  font-weight: bold;
-  border-radius: 0 4px 4px 0;
-  margin-left: 20px;
-  text-align: center;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Jemný tieň, keďže je biela na sivom */
-}
 
-/* Hrot šípky smerujúci vľavo */
-.arrow-left::before {
-  content: "";
-  position: absolute;
-  left: -40px;
-  top: 0;
-  width: 0;
-  height: 0;
-  /* Polovica z 40px výšky je presne 20px */
-  border-top: 40px solid transparent; 
-  border-bottom: 40px solid transparent;
-  border-right: 40px solid #ffffff; 
-}
+        .arrow-left {
+            position: relative;
+            background: #ffffff;
+            color: #333;
+            /* Text tmavejší, aby bol na bielej vidieť */
+            height: 80px;
+            /* Pevná výška pre presné lícovanie */
+            line-height: 40px;
+            /* Vycentruje text vertikálne */
+            padding: 0 20px;
+            /* Padding len po bokoch */
+            display: inline-block;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
+            border-radius: 0 4px 4px 0;
+            margin-left: 20px;
+            text-align: center;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* Jemný tieň, keďže je biela na sivom */
+        }
 
-.bit-btn {
-        font-size: 1rem;
-        font-family: monospace;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        padding:10px;
-        margin:5px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        color:#222
-    }
-    .bit-btn:hover{
-        background: #bababa;
-    }
+        /* Hrot šípky smerujúci vľavo */
+        .arrow-left::before {
+            content: "";
+            position: absolute;
+            left: -40px;
+            top: 0;
+            width: 0;
+            height: 0;
+            /* Polovica z 40px výšky je presne 20px */
+            border-top: 40px solid transparent;
+            border-bottom: 40px solid transparent;
+            border-right: 40px solid #ffffff;
+        }
 
-    /* Štát pre 0 */
-    .state-0 {
-        background-color: #cecece; /* Červená */
-    }
+        .bit-btn {
+            font-size: 1rem;
+            font-family: monospace;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 10px;
+            margin: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #222
+        }
 
-    /* Štát pre 1 */
-    .state-1 {
-        background-color: #fff59d; /* Zelená */
-    }
+        .bit-btn:hover {
+            background: #bababa;
+        }
 
+        /* Štát pre 0 */
+        .state-0 {
+            background-color: #cecece;
+            /* Červená */
+        }
+
+        /* Štát pre 1 */
+        .state-1 {
+            background-color: #fff59d;
+            /* Zelená */
+        }
     </style>
 </head>
 
@@ -237,7 +245,7 @@
                     <h2>Alica</h2>
                 </div>
 
-                <div class="container column" style="flex:1.5">
+                <div class="container column" style="flex:1.6">
                     <h2>Bob</h2>
                     <div class="containervnutro">
                         <b>Určíme verejné parametre:</b>
@@ -307,57 +315,71 @@
                     <div class="containervnutro">
                         <b>Vypočítame s(súčasť public key)</b>
                         <div style="margin:8px"> \(s=x+y\cdot h\) <a href="rot.html"
-                                    style="margin:10px 20px; background: #1a58d5; border-radius: 6px; color:white;padding:4px;">Násobenie polynómov pomocou rot matíc</a>
+                                style="margin:10px 20px; background: #1a58d5; border-radius: 6px; color:white;padding:4px;">Násobenie
+                                polynómov pomocou rot matíc</a>
                         </div>
-                        
+
                         <div style="display:flex;align-items:center;gap:6px;"><b>s=</b>
-                             <div class="containervnutro" style="margin:0px;padding: 0px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
                                 \(x\)
-                             <div id="x-display2" class="vector-display" style="background: #3afef4;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
-                                        0000000000000000</div></div><b>+</b>
-                                         <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                <div id="x-display2" class="vector-display"
+                                    style="background: #3afef4;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div><b>+</b>
+                            <div style="border-radius: 8px;display:flex;align-items:center;gap:6px;border: 2px solid rgb(168, 168, 168);padding: 5px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
                                 \(y\)
-                            <div id="y-display2" class="vector-display" style="background: #2dc8c1;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
-                                        0000000000000000</div></div><b>x</b>
+                                <div id="y-display2" class="vector-display"
+                                    style="background: #2dc8c1;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div><b>x</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
                                 \(rot(h)^T\)
                                 <div id="roth-display" class="matice"
                                     style=" line-height: 0.75;font-size: 0.7rem; letter-spacing: 2px;margin: 1px;background:#7aff55;">
                                 </div>
+                            </div></div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;margin:10px"><b>s=</b>
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(x\)
+                                <div id="x-display3" class="vector-display"
+                                    style="background: #3afef4;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
+                                    0000000000000000</div>
+                            </div><b>+</b>
+                            <div style="border: 2px solid rgb(168, 168, 168);padding: 5px;border-radius: 4px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(y\cdot h \text{ alebo } y\times rot(h)^T \)
+                                <div id="pomoc-display" class="vector-display"
+                                    style="background: rgb(198, 198, 198);font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
+                                    0000000000000000</div>
+                            </div></div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;"><b>s=</b>
+                            <div id="s-display" class="vector-display" style="background: #fea246;">0000000000000000
                             </div>
                         </div>
-                         <div style="display:flex;align-items:center;gap:6px;margin:10px"><b>s=</b>
-                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(x\)
-                             <div id="x-display3" class="vector-display" style="background: #3afef4;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
-                                        0000000000000000</div></div><b>+</b>
-                                         <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(y\cdot h \text{ alebo } y\times rot(h)^T \)
-                            <div id="pomoc-display" class="vector-display" style="background: #13db84;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
-                                        0000000000000000</div></div>
-                        </div>
-                         <div style="display:flex;align-items:center;gap:6px;"><b>s=</b>
-                        <div id="s-display" class="vector-display" style="background: #fea246;">0000000000000000</div></div>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="columns">
                 <div class="arrow-left">
- <b>Verejný kľúč</b><br>
+                    <b>Verejný kľúč</b><br>
                     G,h,s a parametre
-</div>
-               
+                </div>
+
             </div>
             <div class="columns">
-                <div class="container column" style="flex:1.5">
+                <div class="container column" style="flex:1.75">
                     <h2>Alica</h2>
                     <div class="containervnutro">
                         <b>Zvolíme vektor e</b>
                         <div>
                             <div class="tooltip right">
                                 <b>e=</b>
-                                <div id="e-display" class="vector-display" style="background: #ff6f6f;">0000000000000000</div>
+                                <div id="e-display" class="vector-display" style="background: #ff6f6f;">0000000000000000
+                                </div>
                                 <div class="tooltip-text">
                                     dlžka vektora=n=21<br>
                                     Váha vektora=\(w_e\).<br>
@@ -365,20 +387,22 @@
                                     <span class="tooltip-arrow"></span>
                                 </div>
                             </div>
-                             <button onclick="generatenove_e()">Generovať nové e</button>
+                            <button onclick="generatenove_e()">Generovať nové e</button>
                         </div>
                     </div>
-                     <div class="containervnutro">
+                    <div class="containervnutro">
                         <b>Zvolíme vektory \(r_1, r_2\):</b>
                         <div class="tooltip right">
                             <div class="containervnutro" style="margin: 0px;padding:0px;">
                                 <div>
                                     <b>\(r_1\)=</b>
-                                     <div id="r1-display" class="vector-display" style="background: #e8a4f9;">0000000000000000</div>
+                                    <div id="r1-display" class="vector-display" style="background: #e8a4f9;">
+                                        0000000000000000</div>
                                 </div>
                                 <div>
                                     <b>\(r_2\)=</b>
-                                     <div id="r2-display" class="vector-display" style="background:  #b35dc9;">0000000000000000</div>
+                                    <div id="r2-display" class="vector-display" style="background:  #b35dc9;">
+                                        0000000000000000</div>
                                 </div>
                             </div>
                             <div class="tooltip-text">
@@ -391,63 +415,144 @@
                         <button onclick="generatenoveR()">Generovať nové r_1 r_2</button>
                     </div>
 
-                     <div class="containervnutro">
+                    <div class="containervnutro">
                         <b>Vypočítame u</b>
                         <div style="margin:8px"> \(u=r_1+r_2\cdot h\) <a href="rot.html"
-                                    style="margin:10px 20px; background: #1a58d5; border-radius: 6px; color:white;padding:4px;">Násobenie polynómov pomocou rot matíc</a>
+                                style="margin:10px 20px; background: #1a58d5; border-radius: 6px; color:white;padding:4px;">Násobenie
+                                polynómov pomocou rot matíc</a>
                         </div>
-                        
+
                         <div style="display:flex;align-items:center;gap:6px;"><b>u=</b>
-                             <div class="containervnutro" style="margin:0px;padding: 0px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
                                 \(r_1\)
-                             <div id="r1-display2" class="vector-display" style="background: #e8a4f9;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
-                                        0000000000000000</div></div><b>+</b>
-                                         <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                <div id="r1-display2" class="vector-display"
+                                    style="background: #e8a4f9;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div><b>+</b>
+                             <div style="border-radius: 8px;display:flex;align-items:center;gap:6px;border: 2px solid rgb(168, 168, 168);padding: 5px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
                                 \(r_2\)
-                            <div id="r2-display2" class="vector-display" style="background: #b35dc9;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
-                                        0000000000000000</div></div><b>x</b>
+                                <div id="r2-display2" class="vector-display"
+                                    style="background: #b35dc9;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div><b>x</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
                                 \(rot(h)^T\)
                                 <div id="roth-display2" class="matice"
                                     style=" line-height: 0.75;font-size: 0.7rem; letter-spacing: 2px;margin: 1px;background:#7aff55;">
                                 </div>
+                            </div></div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;margin:10px"><b>u=</b>
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(r_1\)
+                                <div id="r1-display3" class="vector-display"
+                                    style="background:#e8a4f9;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
+                                    0000000000000000</div>
+                            </div><b>+</b>
+                             <div style="border: 2px solid rgb(168, 168, 168);padding: 5px;border-radius: 4px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(r_2\cdot h \text{ alebo } r_2\times rot(h)^T \)
+                                <div id="pomoc_u-display" class="vector-display"
+                                    style="background: rgb(198, 198, 198);font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
+                                    0000000000000000</div>
+                            </div></div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;"><b>u=</b>
+                            <div id="u-display" class="vector-display" style="background: #c39a71;">0000000000000000
                             </div>
                         </div>
-                         <div style="display:flex;align-items:center;gap:6px;margin:10px"><b>u=</b>
-                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(r_1\)
-                             <div id="r1-display3" class="vector-display" style="background:#e8a4f9;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
-                                        0000000000000000</div></div><b>+</b>
-                                         <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(r_2\cdot h \text{ alebo } r_2\times rot(h)^T \)
-                            <div id="pomoc_u-display" class="vector-display" style="background: #8f5dc9;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
-                                        0000000000000000</div></div>
-                        </div>
-                         <div style="display:flex;align-items:center;gap:6px;"><b>u=</b>
-                        <div id="u-display" class="vector-display" style="background: #c39a71;">0000000000000000</div></div>
                     </div>
-                     <div class="containervnutro">
+                    <div class="containervnutro">
                         <b>Zvolíme (Alicinu) správu, ktorú chceme bezpečne poslať:</b>
-                         <div class="tooltip right">
-                           <div><b>m=</b>
+                        <div class="tooltip right">
+                            <div><b>m=</b>
                                 <button id="bit-toggle" class="bit-btn state-1" onclick="zmen_spravu(this,0)">1</button>
                                 <button id="bit-toggle" class="bit-btn state-0" onclick="zmen_spravu(this,1)">0</button>
                                 <button id="bit-toggle" class="bit-btn state-1" onclick="zmen_spravu(this,2)">1</button>
-                           </div>
+                            </div>
                             <div class="tooltip-text">
                                 dlžka správy=k=3<br>
                                 Pri skutočnom HQC je k dostatočne velké číslo.
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
-                     </div>
+                        <b>A zakódujeme ju kódom G:</b>
+                        <div style="display:flex;align-items:center;gap:6px;"><b>mG=</b>
+                         <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(m\)
+                                <div id="m-display" class="vector-display"
+                                    style="background: #cecece;font-size: 0.8rem; letter-spacing: 2px;margin: 1px;padding:2px">
+                                    0000000000000000</div>
+                            </div><b>x</b>
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(G\)
+                                <div id="g-display2" class="matice"
+                                    style=" line-height: 1;font-size: 0.8rem; letter-spacing: 2px;margin: 1px;">
+                                </div>
+                            </div><b>=</b>  <div id="mG-display" class="vector-display"
+                                    style="background: #cecece;font-size: 0.8rem; letter-spacing: 2px;margin: 1px;padding:2px">
+                                    0000000000000000</div></div>
+                    </div>
+
+                     <div class="containervnutro">
+                        <b>Vypočítame v: k zakódovanej správe mG pridáme "šum"</b>
+                        <div style="margin:8px"> \(v=mG+r_2\cdot s + e\) <a href="rot.html"
+                                style="margin:10px 20px; background: #1a58d5; border-radius: 6px; color:white;padding:4px;">Násobenie
+                                polynómov pomocou rot matíc</a>
+                        </div>
+
+                        <div style="display:flex;align-items:center;gap:4px;"><b>v=</b>
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(mG\)
+                                <div id="mG-display2" class="vector-display"
+                                    style="background: #cecece;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div>
+                            <b>+</b>
+                             <div style="border-radius: 8px;display:flex;align-items:center;gap:6px;border: 2px solid rgb(168, 168, 168);padding: 5px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(r_2\)
+                                <div id="r2-display3" class="vector-display"
+                                    style="background: #b35dc9;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div><b>x</b>
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(rot(s)^T\)
+                                <div id="rots-display" class="matice"
+                                    style=" line-height: 0.75;font-size: 0.7rem; letter-spacing: 2px;margin: 1px;background:#fea246;">
+                                </div>
+                            </div></div><b>+ e</b>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;margin:10px"><b>v=</b>
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(mG\)
+                                <div id="mG-display3" class="vector-display"
+                                    style="background:#cecece;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div><b>+</b>
+                             <div style="border: 2px solid rgb(168, 168, 168);padding: 5px;border-radius: 4px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(r_2\cdot s \text{ alebo } r_2\times rot(s)^T \)
+                                <div id="sr1-display" class="vector-display"
+                                    style="background: rgb(198, 198, 198);font-size: 0.7rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div></div><b>+</b>
+                             <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(e\)
+                                <div id="e-display2" class="vector-display"
+                                    style="background:#ff6f6f;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;"><b>v=</b>
+                            <div id="v-display" class="vector-display" style="background: #f9d4af;">0000000000000000
+                            </div>
+                        </div>
+                    </div>
+
                    
-                    <div id="mG-display" class="vector-display">0000000000000000</div>
-                    <div id="rots-display"
-                        style="font-family: monospace; letter-spacing: 3px; background: #cfcea6; padding: 15px; white-space: pre; border-radius: 4px;text-align: center;">
-                    </div>sr1
-                    <div id="sr1-display" class="vector-display">0000000000000000</div>v
-                    <div id="v-display" class="vector-display">0000000000000000</div>
+                   
                 </div>
                 <div class="container column" style="background:#dcdcdc">
                     <h2>Bob</h2>
@@ -463,14 +568,53 @@
                 <div class="container column" style="background:#dcdcdc">
                     <h2>Alica</h2>
                 </div>
-                <div class="container column">
+                <div class="container column" style="flex:1.75">
                     <h2>Bob</h2>
-                    rot u
-                    <div id="rotu-display"
-                        style="font-family: monospace; letter-spacing: 3px; background: #cfcea6; padding: 15px; white-space: pre; border-radius: 4px;text-align: center;">
-                    </div>uy
-                    <div id="uy-display" class="vector-display">0000000000000000</div>
-                    <div id="final-display" class="vector-display">0000000000000000</div>
+                    
+                    <div class="containervnutro">
+                        <b>Vypočítame \(v - y \cdot u\)</b>
+
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(v\)
+                                <div id="v-display2" class="vector-display"
+                                    style="background: #f9d4af;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div><b>-</b>
+                             <div style="border-radius: 8px;display:flex;align-items:center;gap:6px;border: 2px solid rgb(168, 168, 168);padding: 5px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(y\)
+                                <div id="y-display3" class="vector-display"
+                                    style="background: #2dc8c1;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
+                                    0000000000000000</div>
+                            </div><b>x</b>
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(rot(u)^T\)
+                                <div id="rotu-display" class="matice"
+                                    style=" line-height: 0.75;font-size: 0.7rem; letter-spacing: 2px;margin: 1px;background:#7aff55;">
+                                </div>
+                            </div></div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;margin:10px">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(v\)
+                                <div id="v-display3" class="vector-display"
+                                    style="background:#f9d4af;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
+                                    0000000000000000</div>
+                            </div><b>-</b>
+                             <div style="border: 2px solid rgb(168, 168, 168);padding: 5px;border-radius: 4px;">
+                            <div class="containervnutro" style="margin:0px;padding: 0px;">
+                                \(y\cdot u \text{ alebo } y\times rot(u)^T \)
+                                <div id="uy-display" class="vector-display"
+                                    style="background: rgb(198, 198, 198);font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
+                                    0000000000000000</div>
+                            </div></div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <div id="final-display" class="vector-display" style="background: #ff00bb;">0000000000000000
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
     </main>
@@ -548,8 +692,8 @@
         generatenove_e();
         generatenoveR();
     }
-    function zmen_spravu(tlacitko,index){
-        m[index]=(m[index]+1)%2;
+    function zmen_spravu(tlacitko, index) {
+        m[index] = (m[index] + 1) % 2;
         if (tlacitko.innerText === "0") {
             tlacitko.innerText = "1";
             tlacitko.classList.remove("state-0");
@@ -601,27 +745,34 @@
         final = addVectors(v, uy);
         document.getElementById('h-display').innerText = h.join('');
         document.getElementById('roth-display').innerText = roth.map(row => row.join('')).join('\n');
-         document.getElementById('roth-display2').innerText = roth.map(row => row.join('')).join('\n');
-
+        document.getElementById('roth-display2').innerText = roth.map(row => row.join('')).join('\n');
+        document.getElementById('m-display').innerText = m.join('');
         document.getElementById('x-display').innerText = x.join('');
         document.getElementById('x-display2').innerText = x.join('');
         document.getElementById('x-display3').innerText = x.join('');
         document.getElementById('y-display').innerText = y.join('');
-         document.getElementById('y-display2').innerText = y.join('');
+        document.getElementById('y-display2').innerText = y.join('');
+           document.getElementById('y-display3').innerText = y.join('');
         document.getElementById('pomoc-display').innerText = pomocny_s.join('');
         document.getElementById('s-display').innerText = s.join('');
         document.getElementById('e-display').innerText = e.join('');
+         document.getElementById('e-display2').innerText = e.join('');
         document.getElementById('r1-display').innerText = r_1.join('');
-         document.getElementById('r1-display2').innerText = r_1.join('');
-          document.getElementById('r1-display3').innerText = r_1.join('');
+        document.getElementById('r1-display2').innerText = r_1.join('');
+        document.getElementById('r1-display3').innerText = r_1.join('');
         document.getElementById('r2-display').innerText = r_2.join('');
-         document.getElementById('r2-display2').innerText = r_2.join('');
+        document.getElementById('r2-display2').innerText = r_2.join('');
+         document.getElementById('r2-display3').innerText = r_2.join('');
         document.getElementById('pomoc_u-display').innerText = pomocny_u.join('');
         document.getElementById('u-display').innerText = u.join('');
         document.getElementById('mG-display').innerText = mG.join('');
+         document.getElementById('mG-display2').innerText = mG.join('');
+          document.getElementById('mG-display3').innerText = mG.join('');
         document.getElementById('rots-display').innerText = rot_s.map(row => row.join('')).join('\n');
         document.getElementById('sr1-display').innerText = sr2.join('');
         document.getElementById('v-display').innerText = v.join('');
+        document.getElementById('v-display2').innerText = v.join('');
+         document.getElementById('v-display3').innerText = v.join('');
         document.getElementById('rotu-display').innerText = rot_u.map(row => row.join('')).join('\n');
         document.getElementById('uy-display').innerText = uy.join('');
         document.getElementById('final-display').innerText = final.join('');
@@ -630,6 +781,7 @@
     function updateG() {
         // G.map transformuje polia na textové reťazce
         document.getElementById('g-display').innerText = G.map(row => row.join('')).join('\n');
+        document.getElementById('g-display2').innerText = G.map(row => row.join('')).join('\n');
     }
     function generateSparseVector(n, w) {
         // 1. Vytvoríme pole samých núl
