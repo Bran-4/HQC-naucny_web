@@ -5,305 +5,20 @@
     <meta charset="UTF-8">
     <title>HQC-demo</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="hqc_style.css">
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        .container {
-            background: rgb(227, 227, 227);
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 10px;
-        }
 
-        .containervnutro {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            /* pod seba */
-            align-items: center;
-            /* horizontálne */
-            background: rgb(224, 224, 224);
-            padding: 10px;
-            border-radius: 8px;
-            /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);*/
-            margin: 10px 0px;
-        }
-
-
-        .columns {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            /* medzera medzi stĺpcami */
-        }
-
-        .column {
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            background: rgb(239, 239, 239);
-            flex: 1;
-            /* oba stĺpce rovnaká šírka */
-        }
-
-        .vector-display {
-
-            font-family: monospace;
-            letter-spacing: 3px;
-            font-size: 1rem;
-            background: #b8e9aa;
-            padding: 5px;
-            text-align: center;
-            border-radius: 4px;
-            margin: 3px 3px;
-            word-break: break-all;
-            display: inline-block;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-
-        }
-
-        .matice {
-            font-family: monospace;
-            letter-spacing: 3px;
-            background: #fffc64;
-            padding: 5px;
-            white-space: pre;
-            border-radius: 4px;
-            text-align: center;
-            display: inline-block;
-            margin: 3px 3px;
-            font-size: 1rem;
-            line-height: 1.3;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-
-        button {
-            padding: 5px 5px;
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin: 4px 0px;
-        }
-
-        button:hover {
-            background-color: #219150;
-        }
-
-
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-
-        .tooltip-text {
-            position: absolute;
-            top: 50%;
-            left: 110%;
-            transform: translateY(-50%);
-
-            background: #007311;
-            color: white;
-            padding: 10px 12px;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            white-space: nowrap;
-
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.2s ease;
-            z-index: 100;
-        }
-
-        /* šípka vľavo */
-        .tooltip-arrow {
-            position: absolute;
-            top: 50%;
-            right: 100%;
-            transform: translateY(-50%);
-
-            width: 0;
-            height: 0;
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
-            border-right: 6px solid #222;
-        }
-
-        .tooltip:hover .tooltip-text {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .tooltip.left .tooltip-text {
-            left: auto;
-            right: 110%;
-        }
-
-        .tooltip.left .tooltip-arrow {
-            right: auto;
-            left: 100%;
-            border-right: none;
-            border-left: 6px solid #222;
-        }
-
-        .small-input {
-            width: 3ch;
-            /* šírka cca na 3 znaky */
-            text-align: center;
-            border-radius: 4px;
-        }
-
-        .ok {
-            color: green;
-            font-weight: bold;
-        }
-
-        .err {
-            color: red;
-            font-weight: bold;
-        }
-
-        /* ZÁKLAD */
-        .arrow {
-            position: relative;
-            background: #ffffff;
-            color: #333;
-            height: 80px;
-            line-height: 37px;
-            padding: 0px 20px;
-            display: inline-block;
-            font-family: 'Segoe UI', sans-serif;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        /* spoločný hrot */
-        .arrow::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            width: 0;
-            height: 0;
-            border-top: 40px solid transparent;
-            border-bottom: 40px solid transparent;
-        }
-
-        /* MODIFIER – LEFT */
-        .arrow--left {
-            border-radius: 0 4px 4px 0;
-            margin-left: 40px;
-        }
-
-        .arrow--left::after {
-            left: -40px;
-            border-right: 40px solid #ffffff;
-        }
-
-        /* MODIFIER – RIGHT */
-        .arrow--right {
-            border-radius: 4px 0 0 4px;
-            margin-right: 40px;
-        }
-
-        .arrow--right::after {
-            right: -40px;
-            border-left: 40px solid #ffffff;
-        }
-
-
-        .bit-btn {
-            font-size: 1rem;
-            font-family: monospace;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            padding: 10px;
-            margin: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            color: #222
-        }
-
-        .bit-btn:hover {
-            background: #bababa;
-        }
-
-        /* Štát pre 0 */
-        .state-0 {
-            background-color: #cecece;
-            /* Červená */
-        }
-
-        /* Štát pre 1 */
-        .state-1 {
-            background-color: #fff59d;
-            /* Zelená */
-        }
-
-        .card-link {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .hqc-table {
-            border-collapse: collapse;
-            /*width: 100%;*/
-            border: 5px solid white;
-            /* Hrubý biely vonkajší rám */
-            background-color: #007311;
-            color: white;
-            text-align: center;
-        }
-
-        /* Tu definujeme biely rámik pre všetky bunky naraz */
-        .hqc-table th,
-        .hqc-table td {
-            border: 3px solid white;
-            padding: 6px;
-        }
-
-        .hqc-table thead {
-            background-color: #08901c;
-        }
-
-      .floating-green-button {
-  position: fixed;        /* Fixná pozícia na obrazovke */
-  bottom: 20px;           /* Vzdialenosť od spodného okraja */
-  left: 50%;              /* Posun do stredu (ľavý okraj tlačidla je v strede) */
-  transform: translateX(-50%); /* Posun späť o polovicu šírky tlačidla pre dokonalý stred */
-  
-  /* Zmenšená veľkosť */
-  padding: 10px 20px;     
-  font-size: 14px;        
-  
-  background-color: #27ae60; 
-  color: white;           
-  font-family: sans-serif;
-  font-weight: bold;
-  border: 3px solid white; /* Mierne tenší rám k menšiemu tlačidlu */
-  border-radius: 8px;    
-  box-shadow: 0px 5px 15px rgba(0,0,0,0.3); 
-  z-index: 9999;          
-  cursor: pointer;
-  
-  /* Zákaz lámania textu */
-  white-space: nowrap;
-  transition: transform 0.2s, background-color 0.2s;
-}
     </style>
 </head>
 
 <body>
 
     <button class="floating-green-button" onclick="aplikuj_vahy(), generateRandomH()">
-  Refreshni parametre
-</button>
+        Refreshni parametre
+    </button>
     <header>
         <h2>HQC-demo</h2>
         <a href="index.html">&larr; Späť do menu</a>
@@ -674,12 +389,12 @@
                             </div>
                         </div>
                         <div class="tooltip right">
-                        <div style="display:flex;align-items:center;gap:6px;"><b>v=</b>
-                            <div id="v-display" class="vector-display" style="background: #f9d4af;">0000000000000000
+                            <div style="display:flex;align-items:center;gap:6px;"><b>v=</b>
+                                <div id="v-display" class="vector-display" style="background: #f9d4af;">0000000000000000
+                                </div>
                             </div>
-                        </div>
-                        <div class="tooltip-text"><b>Z tohto vektora nedokážeme odvodiť Alicinu spravu pretože:</b>
-                                 $$\begin{aligned}
+                            <div class="tooltip-text"><b>Z tohto vektora nedokážeme odvodiť Alicinu spravu pretože:</b>
+                                $$\begin{aligned}
                                 v&= mG + s\cdot r_2 + e\\
                                 &= mG + \text{hustý vektor} \cdot \text{riedky vektor} + \text{riedky vektor}\\
                                 &= mG+ \text{chyba, ktorú C.Decode() neodhalí.}
@@ -687,7 +402,7 @@
 
                                 <span class="tooltip-arrow"></span>
                             </div>
-                    </div>
+                        </div>
                     </div>
 
 
@@ -809,6 +524,7 @@
             </div>
     </main>
 </body>
+<script src="funkcie.js"></script>
 <script>
     const n = 21;
     let h = [];
@@ -839,20 +555,7 @@
     let rot_u = [];
     let uy = [];
     let final = [];
-    function createRotationMatrix(h) {
-        const n = h.length;
-        const matrix = [];
 
-        for (let i = 0; i < n; i++) {
-            // Ak i=0, vrátime pôvodné h. Ak i>0, rotujeme.
-            const rotatedRow = i === 0
-                ? [...h]
-                : [...h.slice(-i), ...h.slice(0, n - i)];
-
-            matrix.push(rotatedRow);
-        }
-        return matrix;
-    }
     function aplikuj_vahy() {
         w = Number(document.getElementById('w-input').value);
         w_e = Number(document.getElementById('w_e-input').value);
@@ -925,11 +628,7 @@
     }
 
     function generateRandomH() {
-        h = [];
-        for (let i = 0; i < n; i++) {
-            // Math.random() < 0.5 vráti true (1) alebo false (0)
-            h.push(Math.random() < 0.5 ? 1 : 0);
-        }
+        h=generate_vect_h(n);
         roth = createRotationMatrix(h);
         update();
     }
@@ -1003,49 +702,7 @@
         document.getElementById('g-display').innerText = G.map(row => row.join('')).join('\n');
         document.getElementById('g-display2').innerText = G.map(row => row.join('')).join('\n');
     }
-    function generateSparseVector(n, w) {
-        // 1. Vytvoríme pole samých núl
-        let vector = new Array(n).fill(0);
-        let count = 0;
 
-        // 2. Náhodne umiestňujeme jednotky, kým nedosiahneme váhu w
-        while (count < w) {
-            let randomIndex = Math.floor(Math.random() * n);
-
-            // Skontrolujeme, či na tejto pozícii už nie je jednotka
-            if (vector[randomIndex] === 0) {
-                vector[randomIndex] = 1;
-                count++;
-            }
-        }
-        return vector;
-    }
-    function multiplyVectorMatrix(vector, matrix) {
-        const rows = matrix.length;
-        const cols = matrix[0].length;
-
-        // Inicializujeme výsledný vektor nulami
-        let result = new Array(cols).fill(0);
-
-        for (let i = 0; i < rows; i++) {
-            // V binárnom poli sčitujeme riadok matice len vtedy, ak je vektore na i-tej pozícii 1
-            if (vector[i] === 1) {
-                for (let j = 0; j < cols; j++) {
-                    // Operácia XOR (sčítanie v F2)
-                    result[j] = result[j] ^ matrix[i][j];
-                }
-            }
-        }
-        return result;
-    }
-    function addVectors(a, b) {
-        if (a.length !== b.length) {
-            return [];
-        }
-
-        // Použijeme metódu map pre čistý a rýchly zápis
-        return a.map((bit, index) => bit ^ b[index]);
-    }
     // renderG();
     // Použitie pre tvoje parametre:
     updateG();
@@ -1060,5 +717,6 @@
     r_2 = generateSparseVector(n, w_r);
     generateRandomH();
 </script>
+
 
 </html>

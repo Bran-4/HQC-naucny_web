@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rot(v) - Stĺpcová Cirkulantná Matica</title>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <style>
+  
+           </style>
+     <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="hqc_style.css">
+
+</head>
+
+<body>
+    <header>
+        <h2>Cirkulantná matica: rot(v)</h2>
+        <a href="index.html">&larr; Späť do menu</a>
+    </header>
+
+<main>
+    <div class="container">
+       <h2>QCSD problém</h2>
+         <div id="h-display" class="vector-display">0000000000000000</div>
+    </div>
+
+</main>
+</body>
+<script src="funkcie.js"></script>
+
+    <script>
+        let h=[];
+        let x=[];
+        let y=[];
+        function update(){
+            h=generate_vect_h(21);
+             document.getElementById('h-display').innerText = h.join('');
+
+        }
+        update();
+    </script>
+</html>
