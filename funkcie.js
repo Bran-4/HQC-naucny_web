@@ -23,6 +23,9 @@
     }
    
     function generateSparseVector(n, w) {
+        if(w>n){
+            w=n;
+        }
         // 1. Vytvoríme pole samých núl
         let vector = new Array(n).fill(0);
         let count = 0;

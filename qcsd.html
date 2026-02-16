@@ -9,12 +9,23 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="hqc_style.css">
 
     <style>
-  
-           </style>
-     <link rel="stylesheet" href="style.css">
-     <link rel="stylesheet" href="hqc_style.css">
+        .bit-btn {
+            font-size: 0.9rem;
+            font-family: monospace;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 5px;
+            margin: 2px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #222
+        }
+    </style>
 
 </head>
 
@@ -24,25 +35,101 @@
         <a href="index.html">&larr; Späť do menu</a>
     </header>
 
-<main>
-    <div class="container">
-       <h2>QCSD problém</h2>
-         <div id="h-display" class="vector-display">0000000000000000</div>
-    </div>
+    <main>
+        <div class="container">
+            <h2>QCSD problém</h2>
+            <input type="number" id="w-input" value="1" class="small-input" min="0" max="9">
+            <input type="number" id="n-input" value="21" min="0">
+            <button onclick="aplikuj()">Aplikuj</button>
+            <div id="bit-container"></div>
 
-</main>
+            <div id="H-display" class="matice">0000000000000000</div>
+            y=<div id="y-display" class="vector-display">
+                0000000000000000</div>
+            vysledne y=<div id="y_vysledok-display" class="vector-display">
+                0000000000000000</div>
+            spravne x=<div id="x_spravne-display" class="vector-display">
+                0000000000000000</div>
+        </div>
+
+    </main>
 </body>
 <script src="funkcie.js"></script>
 
-    <script>
-        let h=[];
-        let x=[];
-        let y=[];
-        function update(){
-            h=generate_vect_h(21);
-             document.getElementById('h-display').innerText = h.join('');
+<script>
+    let H = [];
+    let h = [];
+    let tajne_x = [];
+    let x = [];
+    let y = [];
+    let vysledok_y = [];
+    let n = 50;
+    let w = 1;
+    let rezerva = 0;
+    function aplikuj() {
+        w = Number(document.getElementById('w-input').value);
+        n = Number(document.getElementById('n-input').value);
+        h = generate_vect_h(n);
+        H = createRotationMatrix(h);
+        document.getElementById('H-display').innerText = H.map(row => row.join('')).join('\n');
+        tajne_x = generateSparseVector(n, w);
+        x = generateSparseVector(n, 0);
+        y = multiplyVectorMatrix(tajne_x, H);
+        document.getElementById('y-display').innerText = y.join('');
+          document.getElementById('x_spravne-display').innerText = tajne_x.join('');
+        generovanie_btn(n, w);
+        vynasob();
 
+    }
+    function vynasob() {
+        vysledok_y = multiplyVectorMatrix(x, H);
+        document.getElementById('y_vysledok-display').innerText = vysledok_y.join('');
+    }
+    function generovanie_btn(n, w) {
+        const container = document.getElementById("bit-container");
+        // tvoje pole
+        rezerva = w;
+        container.innerHTML = "";
+        for (let i = 0; i < n; i++) {
+            const btn = document.createElement("button");
+
+            btn.classList.add("bit-btn");
+            btn.dataset.index = i;        // uložíme index
+            btn.innerText = x[i];         // nastavíme podľa poľa
+
+            if (x[i] === 1) {
+                btn.classList.add("state-1");
+            } else {
+                btn.classList.add("state-0");
+            }
+
+            btn.addEventListener("click", function () {
+                zmen_spravu(this, parseInt(this.dataset.index), w);
+            });
+
+            container.appendChild(btn);
         }
-        update();
-    </script>
+
+    }
+    function zmen_spravu(tlacitko, index, w) {
+        x[index] = (x[index] + 1) % 2;
+        if (tlacitko.innerText === "0") {
+            if (rezerva > 0) {
+                tlacitko.innerText = "1";
+                tlacitko.classList.remove("state-0");
+                tlacitko.classList.add("state-1");
+                rezerva--;
+                vynasob();
+            }
+
+        } else {
+            tlacitko.innerText = "0";
+            tlacitko.classList.remove("state-1");
+            tlacitko.classList.add("state-0");
+            rezerva++;
+            vynasob();
+        }
+    }
+</script>
+
 </html>
