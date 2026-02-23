@@ -21,6 +21,10 @@
         }
         return a;
     }
+
+    function spojMaticeVertikalne(A, B) {
+    return A.concat(B);
+}
    
     function generateSparseVector(n, w) {
         if(w>n){

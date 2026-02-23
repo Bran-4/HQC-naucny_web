@@ -225,7 +225,11 @@
 
         /* Štát pre 0 */
         .state-0 {
-            background-color: #cecece;
+            background-color: #aeb5b6;
+            /* Červená */
+        }
+           .state-0-iny {
+            background-color: #cfcfcf;
             /* Červená */
         }
 

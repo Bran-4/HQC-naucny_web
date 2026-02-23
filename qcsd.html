@@ -37,19 +37,23 @@
 
     <main>
         <div class="container">
-            <h2>QCSD problém</h2>
-            <input type="number" id="w-input" value="1" class="small-input" min="0" max="9">
-            <input type="number" id="n-input" value="21" min="0">
-            <button onclick="aplikuj()">Aplikuj</button>
-            <div id="bit-container"></div>
-
-            <div id="H-display" class="matice">0000000000000000</div>
-            y=<div id="y-display" class="vector-display">
-                0000000000000000</div>
-            vysledne y=<div id="y_vysledok-display" class="vector-display">
-                0000000000000000</div>
-            spravne x=<div id="x_spravne-display" class="vector-display">
-                0000000000000000</div>
+            <div class="containervnutro">
+                <b>QCSD problém</b>
+                <div>w=<input type="number" id="w-input" value="1" min="0">, n=
+                    <input type="number" id="n-input" value="10" min="0">
+                </div>
+                <button onclick="aplikuj()">Aplikuj parametre</button>
+                <div style="display:flex;align-items:center;gap:6px;margin:10px">
+                    <div id="bit-container"></div><div id="bit-container2"></div>x
+                    <div id="H-display" class="matice" style="line-height: 0.9;">0000000000000000</div>
+                    =<div id="y_vysledok-display" class="vector-display">
+                    0000000000000000</div>
+                </div>
+                y ktore potrebujeme urcit=<div id="y-display" class="vector-display">
+                        0000000000000000</div>
+                spravne x=<div id="x_spravne-display" class="vector-display">
+                    0000000000000000</div>
+            </div>
         </div>
 
     </main>
@@ -65,71 +69,101 @@
     let vysledok_y = [];
     let n = 50;
     let w = 1;
-    let rezerva = 0;
+    let rezervy = {
+        1: 0,
+        2: 0
+    };
+    let jednotkova_matica = [];
+    let jednotkovy_vektor = [];
+    let vysledna_matica = [];
+
     function aplikuj() {
         w = Number(document.getElementById('w-input').value);
         n = Number(document.getElementById('n-input').value);
         h = generate_vect_h(n);
         H = createRotationMatrix(h);
-        document.getElementById('H-display').innerText = H.map(row => row.join('')).join('\n');
-        tajne_x = generateSparseVector(n, w);
-        x = generateSparseVector(n, 0);
-        y = multiplyVectorMatrix(tajne_x, H);
+        jednotkovy_vektor = generateSparseVector(n, 0);
+        jednotkovy_vektor[0] = 1;
+        jednotkova_matica = createRotationMatrix(jednotkovy_vektor);
+        vysledna_matica = spojMaticeVertikalne(jednotkova_matica, H);
+        document.getElementById('H-display').innerText = vysledna_matica.map(row => row.join('')).join('\n');
+        tajne_x1 = generateSparseVector(n, w); tajne_x2 = generateSparseVector(n, w);
+        tajne_x = tajne_x1.concat(tajne_x2);
+        x = generateSparseVector(2 * n, 0);
+        y = multiplyVectorMatrix(tajne_x, vysledna_matica);
         document.getElementById('y-display').innerText = y.join('');
-          document.getElementById('x_spravne-display').innerText = tajne_x.join('');
-        generovanie_btn(n, w);
+        document.getElementById('x_spravne-display').innerText = tajne_x.join('');
+        generovanie_btn(n, w, 1);
+        generovanie_btn(n, w, 2);
         vynasob();
 
     }
     function vynasob() {
-        vysledok_y = multiplyVectorMatrix(x, H);
+        vysledok_y = multiplyVectorMatrix(x, vysledna_matica);
         document.getElementById('y_vysledok-display').innerText = vysledok_y.join('');
     }
-    function generovanie_btn(n, w) {
-        const container = document.getElementById("bit-container");
+    function generovanie_btn(n, w, typrezervy) {
+        let container;
+        if(typrezervy==1){
+            container = document.getElementById("bit-container");
+        }else{container = document.getElementById("bit-container2");}
+        
         // tvoje pole
-        rezerva = w;
-        container.innerHTML = "";
+        rezervy[typrezervy] = w;
+        if (typrezervy == 1) {
+            container.innerHTML = "";
+            document.getElementById("bit-container2").innerHTML="";
+        }
+
         for (let i = 0; i < n; i++) {
             const btn = document.createElement("button");
 
             btn.classList.add("bit-btn");
-            btn.dataset.index = i;        // uložíme index
-            btn.innerText = x[i];         // nastavíme podľa poľa
+            btn.dataset.index = i + n * (typrezervy - 1);        // uložíme index
+            btn.innerText = x[i + n * (typrezervy - 1)];         // nastavíme podľa poľa
 
-            if (x[i] === 1) {
+            if (x[i + n * (typrezervy - 1)] === 1) {
                 btn.classList.add("state-1");
             } else {
-                btn.classList.add("state-0");
+                if(typrezervy==1){
+                     btn.classList.add("state-0-iny");
+                }
+                else{btn.classList.add("state-0");}    
             }
 
             btn.addEventListener("click", function () {
-                zmen_spravu(this, parseInt(this.dataset.index), w);
+                zmen_spravu(this, parseInt(this.dataset.index), w, typrezervy);
             });
 
             container.appendChild(btn);
         }
 
     }
-    function zmen_spravu(tlacitko, index, w) {
-        x[index] = (x[index] + 1) % 2;
+
+    function zmen_spravu(tlacitko, index, w, typrezervy) {
         if (tlacitko.innerText === "0") {
-            if (rezerva > 0) {
+            if (rezervy[typrezervy] > 0) {
+                x[index] = 1;
                 tlacitko.innerText = "1";
                 tlacitko.classList.remove("state-0");
                 tlacitko.classList.add("state-1");
-                rezerva--;
+                rezervy[typrezervy]--;
                 vynasob();
             }
 
         } else {
+            x[index] = 0;
             tlacitko.innerText = "0";
             tlacitko.classList.remove("state-1");
-            tlacitko.classList.add("state-0");
-            rezerva++;
+             if(typrezervy==1){
+                     tlacitko.classList.add("state-0-iny");
+                }else{tlacitko.classList.add("state-0");}
+            rezervy[typrezervy]++;
             vynasob();
         }
     }
+    aplikuj();
+
 </script>
 
 </html>
