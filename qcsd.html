@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Rot(v) - Stĺpcová Cirkulantná Matica</title>
+    <title>Syndrome Decoding problem</title>
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -31,28 +31,63 @@
 
 <body>
     <header>
-        <h2>Cirkulantná matica: rot(v)</h2>
+        <h2>Syndrome Decoding problem</h2>
         <a href="index.html">&larr; Späť do menu</a>
     </header>
 
     <main>
         <div class="container">
-            <div class="containervnutro">
-                <b>QCSD problém</b>
-                <div>w=<input type="number" id="w-input" value="1" min="0">, n=
-                    <input type="number" id="n-input" value="10" min="0">
+            <b>Definícia:</b><br>
+
+Pre kladné celé čísla \(n, k\) a \(w\) rozdelenie \(\mathrm{SD}(n, k, w)\)
+náhodne vyberie
+\[
+H \xleftarrow{\$} \mathbb{F}^{n\times (n-k)}, \qquad
+x \xleftarrow{\$} \mathbb{F}^n \text{ tak, že } \omega(x) = w,
+\]
+a vydá
+\[
+(H, \sigma(x)) = (H, xH^T).
+\]
+
+Nech \(\omega\) je norma na R.  
+Nech \((H^T, y) \in \mathbb{F}^{n\times (n-k)} \times \mathbb{F}^{n-k}\),
+pochádza z SD rozdelenia. Syndrómový dekódovací problém
+\(\mathrm{SD}(n, k, w)\) vyžaduje nájsť \(x \in \mathbb{F}^n\) také, že
+\[
+xH^T = y \quad \text{a} \quad \omega(x) = w.
+\]
+Na najdenie \( x\) pre ktoré platía obe podmienky zatiaľ neexistuje efektívny algoritmus, dokonca ani kvantový. 
+<h2>Výskyt v HQC:</h2>
+<div class="columns">
+    <div class="container column" style="font-size: 0.9rem;">
+        $$s = x + y \cdot h$$ To je ekvivalentný zápis k:
+        $$s = [x \ \ y] \cdot \begin{bmatrix} I_n \\ \text{rot}(h)^T \end{bmatrix}$$ 
+    </div>
+    <div class="container column" style="font-size: 0.9rem;">
+        $$u = r_1 + r_2 \cdot h$$
+        To je ekvivalentný zápis k:
+        $$u = [r_1 \ \ r_2] \cdot \begin{bmatrix} I_n \\ \text{rot}(h)^T \end{bmatrix}$$ 
+    </div>
+</div>
+            <div class="containervnutro" style=" box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background: rgb(239, 239, 239);">
+                <b>Zistite x a y keď poznáte s a h</b>
+                <div>w=<input type="number" id="w-input" value="1" min="0">, n=2*
+                    <input type="number" id="n-input" value="10" min="0">, k=n/2
                 </div>
                 <button onclick="aplikuj()">Aplikuj parametre</button>
                 <div style="display:flex;align-items:center;gap:6px;margin:10px">
-                    <div id="bit-container"></div><div id="bit-container2"></div>x
-                    <div id="H-display" class="matice" style="line-height: 0.9;">0000000000000000</div>
-                    =<div id="y_vysledok-display" class="vector-display">
-                    0000000000000000</div>
+                    <div class="containervnutro" style="margin:0px;padding: 0px;">s<div id="y_vysledok-display" class="vector-display">
+                    0000000000000000</div></div>=
+                     <div class="containervnutro" style="margin:0px;padding: 0px;">x<div id="bit-container"></div></div> <div class="containervnutro" style="margin:0px;padding: 0px;">y<div id="bit-container2"></div></div>x
+                     <div class="containervnutro" style="margin:0px;padding: 0px;">\(H^T\)<div id="H-display" class="matice" style="line-height: 0.9;">0000000000000000</div></div>
+                    
                 </div>
-                y ktore potrebujeme urcit=<div id="y-display" class="vector-display">
-                        0000000000000000</div>
-                spravne x=<div id="x_spravne-display" class="vector-display">
-                    0000000000000000</div>
+                <div>s ktore potrebujeme urcit=<div id="y-display" class="vector-display">
+                        0000000000000000</div></div>
+                <div>spravne (x,y)=<div id="x_spravne-display" class="vector-display">
+                    0000000000000000</div></div>
             </div>
         </div>
 

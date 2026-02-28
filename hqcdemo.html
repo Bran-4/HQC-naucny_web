@@ -10,7 +10,7 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-
+     
     </style>
 </head>
 
@@ -30,7 +30,7 @@
                     <h2>Alica</h2>
                 </div>
 
-                <div class="container column" style="flex:1.6">
+                <div class="container column" style="flex:1.65">
                     <h2>Bob</h2>
                     <div class="containervnutro">
                         <b>Určíme verejné parametre:</b>
@@ -197,11 +197,19 @@
                 </div>
             </div>
             <div class="columns">
-                <div class="arrow arrow--left">
-                    <b>Verejný kľúč</b><br>
-                    <span style="background: #fffc64;padding:0px 2px">G</span>, <span
-                        style="background: #b8e9aa;padding:0px 2px">h</span>, <span
-                        style="background: #f8b97a;padding:0px 2px">s</span> a parametre
+                <div class="tooltip right">
+                    <a href="qcsd.html" class="card-link">
+                        <div class="arrow arrow--left">
+                            <b>Verejný kľúč</b><br>
+                            <span style="background: #fffc64;padding:0px 2px">G</span>, <span
+                                style="background: #b8e9aa;padding:0px 2px">h</span>, <span
+                                style="background: #f8b97a;padding:0px 2px">s</span> a parametre
+                        </div>
+                    </a>
+                    <div class="tooltip-text" style="text-align: center;">
+                        <b>Poznáme s a h, nevedeli by sme zistiť x a y?</b><br>
+                        <-KLIKNI <span class="tooltip-arrow"></span>
+                    </div>
                 </div>
                 <!-- druha dvojica stlpcov-->
             </div>
@@ -414,12 +422,21 @@
             </div>
             <!--tretia dvojica stlpcov-->
             <div class="columns">
-                <a href="rot.html" class="card-link">
-                    <div class="arrow arrow--right">
-                        <b>Zašifrovana informácia</b><br><span style="background: #f9d4af;padding:0px 2px">v</span> a
-                        <span style="background: #c39a71;padding:0px 2px">u</span>
+                <div class="tooltip left">
+                    <a href="qcsd.html" class="card-link">
+                        <div class="arrow arrow--right">
+                            <b>Zašifrovana informácia</b><br><span style="background: #f9d4af;padding:0px 2px">v</span>
+                            a
+                            <span style="background: #c39a71;padding:0px 2px">u</span>
+                        </div>
+                    </a>
+                    <div class="tooltip-text" style="text-align: center;">
+                        <b>Poznáme u a h, nevedeli by sme zistiť r_1 a r_2?</b><br>
+                        KLIKNI->
+
+                        <span class="tooltip-arrow"></span>
                     </div>
-                </a>
+                </div>
             </div>
             <div class="columns">
                 <div class="container column" style="background:#dcdcdc">
@@ -522,6 +539,21 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="container" style="margin-bottom: 50px;">
+            <h2 style="margin:2px;font-size: 1.1rem;">Vyskúšajte:</h2>
+             <div class="columns">
+                <div class="container column scenar-box" data-title="Scenár 1">Zvoľte <b>vysoké hodnoty váh</b>, tak že zasvieti <b>červené</b> upozornenie.<br> Klikajte <button style="  background-color: #27ae60; 
+  color: white;           
+  font-family: sans-serif;
+  font-weight: bold;
+  border: 3px solid white; /* Mierne tenší rám k menšiemu tlačidlu */
+  border-radius: 8px;    
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.3); ">Refreshni parametre</button><br> Aké spoľahlivé je dešifrovanie?</b><br> Všimajte si, ako sa rozložil šum pri zlom dešifrovaní. </div>
+                <div class="container column scenar-box" data-title="Scenár 2">Zvoľte nízke hodnoty váh.<br>Je správa bezpečne zašifrovaná?</div>
+                <div class="container column scenar-box" data-title="Scenár 3">Ponechajte pôvodné nastavenie váh.<br> Môže nastať nesprávne dešifrovanie?</div>
+             </div>
+        </div>
     </main>
 </body>
 <script src="funkcie.js"></script>
@@ -573,8 +605,8 @@
         const msg = document.getElementById('check-msg');
         if (w + w_e + w_r > 3) {
             msg.innerHTML =
-                "CHYBA: musí platiť:" +
-                "w(x · r2 + r1 · y + e) ≤ 3 = počet chýb, ktoré vie kód generovaný G opraviť.<br>" +
+                "CHYBA: môže nastať:" +
+                "w(x · r2 + r1 · y + e) > 3 = počet chýb, ktoré vie kód generovaný G opraviť.<br>" +
                 "Dešifrovanie nie je spoľahlivé.";
             msg.className = "err";
         }
@@ -628,7 +660,7 @@
     }
 
     function generateRandomH() {
-        h=generate_vect_h(n);
+        h = generate_vect_h(n);
         roth = createRotationMatrix(h);
         update();
     }
