@@ -32,6 +32,8 @@
 
                 <div class="container column" style="flex:1.65">
                     <h2>Bob</h2>
+                    <div class="containervnutro2">
+                        - 1.
                     <div class="containervnutro">
                         <b>Určíme verejné parametre:</b>
                         <div class="tooltip left">$$n=21 \text{, }k=3$$
@@ -115,8 +117,8 @@
                         </div>
                         <div id="check-msg"></div>
                         <button onclick="aplikuj_vahy()">Aplikovať nové váhy</button>
-                    </div>
-
+                    </div></div>
+                    <div class="containervnutro2">- 2.
                     <div class="containervnutro">
                         <b>Zvolíme (Bobov) súkromný kľúč:</b>
                         <div class="tooltip left">
@@ -140,14 +142,26 @@
                             </div>
                         </div>
                         <button onclick="generatenoveXY()">Generovať nové x a y</button>
-                    </div>
+                    </div></div>
 
+                    <div class="containervnutro2"> - 3.
                     <div class="containervnutro">
                         <b>Vypočítame s(súčasť public key)</b>
-                        <div style="margin:8px"> \(s=x+y\cdot h\) <a href="rot.html"
+                        <div class="tooltip left" style="margin-bottom: 5px;">
+                             <a href="rot.html" class="card-link">\(s=x+y\cdot h\)</a>
+                            <div class="tooltip-text">
+                               Predpokladajme, že:
+                                 \[
+                y \cdot h = y \times \operatorname{rot}(h)^T
+                \]
+                KLIKNI pre viac info
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                        <!--<div style="margin:8px"> \(s=x+y\cdot h\) <a href="rot.html"
                                 style="margin:10px 20px; color:rgb(0, 60, 255);font-weight: 800;font-size: 0.75rem;">Násobenie
                                 polynómov pomocou rot matíc</a>
-                        </div>
+                        </div>-->
 
                         <div style="display:flex;align-items:center;gap:6px;"><b>s=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
@@ -192,7 +206,7 @@
                             <div id="s-display" class="vector-display" style="background: #f8b97a;">0000000000000000
                             </div>
                         </div>
-                    </div>
+                    </div></div>
 
                 </div>
             </div>
@@ -216,6 +230,7 @@
             <div class="columns">
                 <div class="container column" style="flex:1.75">
                     <h2>Alica</h2>
+                      <div class="containervnutro2">- 4. Zvolíme súkromné parametre (Alicine)
                     <div class="containervnutro">
                         <b>Zvolíme vektor e</b>
                         <div>
@@ -256,14 +271,26 @@
                             </div>
                         </div>
                         <button onclick="generatenoveR()">Generovať nové r_1 r_2</button>
-                    </div>
+                    </div></div>
 
+                    <div class="containervnutro2">- 5.
                     <div class="containervnutro">
                         <b>Vypočítame u</b>
-                        <div style="margin:8px"> \(u=r_1+r_2\cdot h\) <a href="rot.html"
+                         <div class="tooltip right" style="margin-bottom: 5px;">
+                             <a href="rot.html" class="card-link">\(u=r_1+r_2\cdot h\)</a>
+                            <div class="tooltip-text">
+                                Predpokladajme, že:
+                                 \[
+                r_2 \cdot h = r_2 \times \operatorname{rot}(h)^T
+                \]
+                KLIKNI pre viac info
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                        <!--<div style="margin:8px"> \(\) <a href="rot.html"
                                 style="margin:10px 20px; color:rgb(0, 60, 255);font-weight: 800;font-size: 0.75rem;">Násobenie
                                 polynómov pomocou rot matíc</a>
-                        </div>
+                        </div>-->
 
                         <div style="display:flex;align-items:center;gap:6px;"><b>u=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
@@ -308,7 +335,8 @@
                             <div id="u-display" class="vector-display" style="background: #c39a71;">0000000000000000
                             </div>
                         </div>
-                    </div>
+                    </div></div>
+                    <div class="containervnutro2">- 6.
                     <div class="containervnutro">
                         <b>Zvolíme (Alicinu) správu, ktorú chceme bezpečne poslať:</b>
                         <div class="tooltip right">
@@ -341,14 +369,26 @@
                                 style="background: #cecece;font-size: 0.8rem; letter-spacing: 2px;margin: 1px;padding:2px">
                                 0000000000000000</div>
                         </div>
-                    </div>
+                    </div></div>
 
+<div class="containervnutro2"> - 7. Zamaskujeme správu
                     <div class="containervnutro">
                         <b>Vypočítame v: k zakódovanej správe mG pridáme "šum"</b>
-                        <div style="margin:8px"> \(v=mG+r_2\cdot s + e\) <a href="rot.html"
+                         <div class="tooltip right" style="margin-bottom: 5px;">
+                             <a href="rot.html" class="card-link">\(v=mG+r_2\cdot s + e\)</a>
+                            <div class="tooltip-text">
+                                 Predpokladajme, že:
+                                 \[
+                r_2 \cdot s = r_2 \times \operatorname{rot}(s)^T
+                \]
+                KLIKNI pre viac info
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                        <!--<div style="margin:8px"> \(v=mG+r_2\cdot s + e\) <a href="rot.html"
                                 style="margin:10px 20px; color:rgb(0, 60, 255);font-weight: 800;font-size: 0.75rem;">Násobenie
                                 polynómov pomocou rot matíc</a>
-                        </div>
+                        </div>-->
 
                         <div style="display:flex;align-items:center;gap:4px;"><b>v=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
@@ -411,7 +451,7 @@
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
-                    </div>
+                    </div></div>
 
 
 
@@ -445,8 +485,20 @@
                 <div class="container column" style="flex:1.75">
                     <h2>Bob</h2>
 
+                    <div class="containervnutro2">- 8.
                     <div class="containervnutro">
-                        <b>Vypočítame \(v - y \cdot u\)</b>
+                         <div class="tooltip left" style="margin-bottom: 5px;">
+                             <a href="rot.html" class="card-link"><b>Vypočítame \(v - y \cdot u\)</b></a>
+                            <div class="tooltip-text">
+                                Predpokladajme, že:
+                                 \[
+                y \cdot u = y \times \operatorname{rot}(u)^T
+                \]
+                KLIKNI pre viac info
+                                <span class="tooltip-arrow"></span>
+                            </div>
+                        </div>
+                        
 
                         <div style="display:flex;align-items:center;gap:6px;">
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
@@ -496,18 +548,21 @@
                             <div class="tooltip-text">
                                 <b>Tento vektor je možné dekódovať, pretože nastane:</b>
                                 $$\begin{aligned}
-                                (v - u y)&= mG + s\cdot r_2 + e - (r_1 + h \cdot r_2) \cdot y\\
-                                &= mG + (x + h \cdot y)\cdot r_2 + e - r_1 \cdot y - h \cdot y \cdot r_2\\
-                                &= mG + x\cdot r_2 + \cancel{h \cdot y\cdot r_2} + e - r_1 \cdot y
-                                - \cancel{h \cdot y \cdot r_2}\\
-                                &= mG + x\cdot r_2 + e - r_1 \cdot y\\
+                                (v - y\cdot u)&= mG + s\cdot r_2 + e - y\cdot (r_1 + h \cdot r_2) \\
+                                &= mG + (x + y \cdot h)\cdot r_2 + e - y \cdot r_1 - y \cdot h \cdot r_2\\
+                                &= mG + x\cdot r_2 + \cancel{y \cdot h\cdot r_2} + e - y \cdot r_1
+                                - \cancel{y \cdot h \cdot r_2}\\
+                                &= mG + x\cdot r_2 + e - y \cdot r_1\\
                                 &= mG+\text{riedky vektor}
                                 \end{aligned}$$
+                                Poznámka: operácia \(\cdot\) je komutatívna.
 
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
-                    </div>
+                    </div></div>
+
+                    <div class="containervnutro2"> - 9.
                     <div class="containervnutro">
                         <div class="tooltip left">
                             <b>Odstránime chyby a získame tajnú správu: C.Decode(\(v - y \cdot u\))</b>
@@ -536,27 +591,22 @@
                         </div>
                         <div id="check-msg2"></div>
 
-                    </div>
+                    </div></div>
                 </div>
             </div>
         </div>
-        <div class="container" style="margin-bottom: 50px;">
-            <h2 style="margin:2px;font-size: 1.1rem;">Vyskúšajte:</h2>
+        <!--<div class="container" style="margin-bottom: 50px;">-->
             <div class="columns">
-                <div class="container column scenar-box" data-title="Scenár 1">Zvoľte <b>vysoké hodnoty váh</b>, tak že
-                    zasvieti <b>červené</b> upozornenie.<br> Klikajte <button style="  background-color: #27ae60; 
+                <div class="container column scenar-box" data-title="Alternatívny scénar">Zvoľte <b>vysoké hodnoty váh</b>, tak že
+                    zasvieti <b>červené</b> upozornenie.<br>Opakovane klikajte <button style="  background-color: #27ae60; 
   color: white;           
   font-family: sans-serif;
   font-weight: bold;
   border: 3px solid white; /* Mierne tenší rám k menšiemu tlačidlu */
   border-radius: 8px;    
-  box-shadow: 0px 5px 15px rgba(0,0,0,0.3); ">Refreshni parametre</button><br> Aké spoľahlivé je dešifrovanie?</b><br>
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.3); ">Refreshni parametre</button> a sledujte dešifrovanú správu.<br><b>Dešifrovanie nemusí fungovať.</b><br>
                     Všimajte si, ako sa rozložil šum pri zlom dešifrovaní. </div>
-                <div class="container column scenar-box" data-title="Scenár 2">Zvoľte nízke hodnoty váh.<br>Je správa
-                    bezpečne zašifrovaná?</div>
-                <div class="container column scenar-box" data-title="Scenár 3">Ponechajte pôvodné nastavenie váh.<br>
-                    Môže nastať nesprávne dešifrovanie?</div>
-            </div>
+            <!--</div>-->
         </div>
     </main>
 </body>

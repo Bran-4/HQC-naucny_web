@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Syndrome Decoding problem</title>
+    <title>Quasi-Cyclic Syndrome Decoding problem</title>
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -31,13 +31,13 @@
 
 <body>
     <header>
-        <h2>Syndrome Decoding problem</h2>
+        <h2>Quasi-Cyclic Syndrome Decoding problem- QCSD problem</h2>
         <a href="index.html">&larr; Späť do menu</a>
     </header>
 
     <main>
         <div class="container">
-            <b>Definícia:</b><br>
+           <!-- <b>Definícia:</b><br>
 
 Pre kladné celé čísla \(n, k\) a \(w\) rozdelenie \(\mathrm{SD}(n, k, w)\)
 náhodne vyberie
@@ -63,6 +63,43 @@ pochádza z SD rozdelenia. Syndrómový dekódovací problém
     padding-top: 0px;">\[
 xH^T = y \quad \text{a} \quad \omega(x) = w.
 \]
+Na najdenie \( x\) pre ktoré platía obe podmienky zatiaľ neexistuje efektívny algoritmus, dokonca ani kvantový.</div>-->
+
+  <b>Definícia:</b><br>
+Pre kladné celé čísla \(n, w\) a \(s\) rozdelenie \(\mathrm{QCSD}(n, w)\)
+náhodne vyberie paritnú kontrolnú maticu
+\[
+H \xleftarrow{\$} \mathbb{F}^{(sn - n) \times sn}
+\]
+systematického kvazicyklického kódu \(C\) indexu \(s\) a miera \(1/s\),
+spolu s vektorom
+\[
+\mathbf{x} = (x_1, \ldots, x_s) \xleftarrow{\$} \mathbb{F}^{sn},
+\qquad \text{kde } \omega(x_i) = w \text{ pre } i = 1,\ldots,s,
+\]
+a vydá
+\[
+(H, x\mathbf{H}^T).
+\]
+Pre kladné celé čísla \(n, w, s\), náhodnú paritnú maticu \(H\) kvazicyklického kódu
+indexu \(s\) a \(\mathbf{y} \xleftarrow{\$} \mathbb{F}^{sn-n}\), problém \(\mathrm{QCSD}(n, w)\)
+vyžaduje nájsť
+\(
+\mathbf{x} = (x_1, \ldots, x_s) \in \mathbb{F}^{sn}
+\)
+také, že
+<div class="container" style="
+    text-align: center;
+    border: 3px solid #ffbc2c;
+    font-weight: bold;
+    margin:15px;
+    border-radius: 15px;
+    padding-top: 0px;">
+\[
+\omega(x_i) = w \quad \text{pre } i = 1,\ldots,s,
+\qquad\text{a}\qquad
+\mathbf{y} = x\mathbf{H}^T.
+\]
 Na najdenie \( x\) pre ktoré platía obe podmienky zatiaľ neexistuje efektívny algoritmus, dokonca ani kvantový.</div>
 
 <h2>Výskyt v HQC:</h2>
@@ -73,7 +110,7 @@ Na najdenie \( x\) pre ktoré platía obe podmienky zatiaľ neexistuje efektívn
         <div class="container" style="
     text-align: center;
     border: 3px solid #ffbc2c;
-    font-weight: bold;">Riešiť pre \([x \ \ y]\) znamená riešiť (Search) SD problem</div>
+    font-weight: bold;">Riešiť pre \([x \ \ y]\) znamená riešiť QCSD problem</div>
     </div>
     <div class="container column" style="font-size: 0.9rem;">
         $$u = r_1 + r_2 \cdot h$$
@@ -82,19 +119,20 @@ Na najdenie \( x\) pre ktoré platía obe podmienky zatiaľ neexistuje efektívn
         <div class="container" style="
     text-align: center;
     border: 3px solid #ffbc2c;
-    font-weight: bold;">Riešiť pre \([r_1 \ \ r_2]\) znamená riešiť (Search) SD problem</div>
+    font-weight: bold;">Riešiť pre \([r_1 \ \ r_2]\) znamená riešiť QCSD problem</div>
     </div>
 </div>
             <div class="containervnutro" style=" box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             background: rgb(239, 239, 239);">
                 <h2>Minihra</h2>
-                <b>Zistite x a y keď poznáte s a h</b>
+                <b>Majme:</b>
                 <div>w=<input type="number" id="w-input" value="1" min="0">, n=2*
                     <input type="number" id="n-input" value="10" min="0">, k=n/2
                 </div>
-                <div>Poznáme s=<div id="y-display" class="vector-display">
+                <div>Poznáme \(s_{OK}\)=<div id="y-display" class="vector-display">
                         0000000000000000</div></div>
                 <button onclick="aplikuj()">Aplikuj parametre</button>
+                <b>Zvolte váhy x,y tak aby sa \(s_{OK}\), ktoré poznáme zhodovalo s výpočitaným s.</b>
                 <div style="display:flex;align-items:center;gap:6px;margin:10px">
                     <div class="containervnutro" style="margin:0px;padding: 0px;">s (výsledok výpočtu)<div id="y_vysledok-display" class="vector-display">
                     0000000000000000</div></div>=
