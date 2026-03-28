@@ -32,8 +32,7 @@
 
                 <div class="container column" style="flex:1.65">
                     <h2>Bob</h2>
-                    <div class="containervnutro2">
-                        - 1.
+                  
                     <div class="containervnutro">
                         <b>Určíme verejné parametre:</b>
                         <div class="tooltip left">$$n=21 \text{, }k=3$$
@@ -117,8 +116,7 @@
                         </div>
                         <div id="check-msg"></div>
                         <button onclick="aplikuj_vahy()">Aplikovať nové váhy</button>
-                    </div></div>
-                    <div class="containervnutro2">- 2.
+                    </div>
                     <div class="containervnutro">
                         <b>Zvolíme (Bobov) súkromný kľúč:</b>
                         <div class="tooltip left">
@@ -142,17 +140,16 @@
                             </div>
                         </div>
                         <button onclick="generatenoveXY()">Generovať nové x a y</button>
-                    </div></div>
+                    </div>
 
-                    <div class="containervnutro2"> - 3.
                     <div class="containervnutro">
                         <b>Vypočítame s(súčasť public key)</b>
                         <div class="tooltip left" style="margin-bottom: 5px;">
-                             <a href="rot.html" class="card-link">\(s=x+y\cdot h\)</a>
+                             <a href="rot.html" class="card-link">\(\mathbf{s}=\mathbf{x}+\mathbf{y}\cdot \mathbf{h}\)</a>
                             <div class="tooltip-text">
-                               Predpokladajme, že:
+                               Definujme binárnu operáciu \( \cdot\) ako:
                                  \[
-                y \cdot h = y \times \operatorname{rot}(h)^T
+                \mathbf{y} \cdot \mathbf{h} = \mathbf{y} \times \operatorname{rot}(\mathbf{h})^T
                 \]
                 KLIKNI pre viac info
                                 <span class="tooltip-arrow"></span>
@@ -165,7 +162,7 @@
 
                         <div style="display:flex;align-items:center;gap:6px;"><b>s=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(x\)
+                                \(\mathbf{x}\)
                                 <div id="x-display2" class="vector-display"
                                     style="background: #9ffffa;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                     0000000000000000</div>
@@ -173,13 +170,13 @@
                             <div
                                 style="border-radius: 8px;display:flex;align-items:center;gap:6px;border: 2px solid rgb(168, 168, 168);padding: 5px;">
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(y\)
+                                    \(\mathbf{y}\)
                                     <div id="y-display2" class="vector-display"
                                         style="background: #5ed4ce;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                         0000000000000000</div>
                                 </div><b>x</b>
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(rot(h)^T\)
+                                    \(rot(\mathbf{h})^T\)
                                     <div id="roth-display" class="matice"
                                         style=" line-height: 0.75;font-size: 0.7rem; letter-spacing: 2px;margin: 1px;background:#b8e9aa;">
                                     </div>
@@ -188,14 +185,14 @@
                         </div>
                         <div style="display:flex;align-items:center;gap:6px;margin:10px"><b>s=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(x\)
+                                \(\mathbf{x}\)
                                 <div id="x-display3" class="vector-display"
                                     style="background: #9ffffa;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
                                     0000000000000000</div>
                             </div><b>+</b>
                             <div style="border: 2px solid rgb(168, 168, 168);padding: 5px;border-radius: 4px;">
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(y\cdot h \text{ alebo } y\times rot(h)^T \)
+                                    \(\mathbf{y}\cdot \mathbf{h} \text{ alebo } \mathbf{y}\times rot(\mathbf{h})^T \)
                                     <div id="pomoc-display" class="vector-display"
                                         style="background: rgb(198, 198, 198);font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
                                         0000000000000000</div>
@@ -206,7 +203,7 @@
                             <div id="s-display" class="vector-display" style="background: #f8b97a;">0000000000000000
                             </div>
                         </div>
-                    </div></div>
+                    </div>
 
                 </div>
             </div>
@@ -230,8 +227,8 @@
             <div class="columns">
                 <div class="container column" style="flex:1.75">
                     <h2>Alica</h2>
-                      <div class="containervnutro2">- 4. Zvolíme súkromné parametre (Alicine)
-                    <div class="containervnutro">
+                      <div class="containervnutro2">Generovanie náhodnosti
+                    <div class="containervnutro" style="margin:5px 0px">
                         <b>Zvolíme vektor e</b>
                         <div>
                             <div class="tooltip right">
@@ -248,17 +245,17 @@
                             <button onclick="generatenove_e()">Generovať nové e</button>
                         </div>
                     </div>
-                    <div class="containervnutro">
-                        <b>Zvolíme vektory \(r_1, r_2\):</b>
+                    <div class="containervnutro" style="margin:5px 0px">
+                        <b>Zvolíme vektory \(\mathbf{r_1}, \mathbf{r_2}\):</b>
                         <div class="tooltip right">
                             <div class="containervnutro" style="margin: 0px;padding:0px;">
                                 <div>
-                                    <b>\(r_1\)=</b>
+                                    <b>\(\mathbf{r_1}\)=</b>
                                     <div id="r1-display" class="vector-display" style="background: #f2c1ff;">
                                         0000000000000000</div>
                                 </div>
                                 <div>
-                                    <b>\(r_2\)=</b>
+                                    <b>\(\mathbf{r_2}\)=</b>
                                     <div id="r2-display" class="vector-display" style="background:  #c992d5;">
                                         0000000000000000</div>
                                 </div>
@@ -270,18 +267,18 @@
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
-                        <button onclick="generatenoveR()">Generovať nové r_1 r_2</button>
+                        <button onclick="generatenoveR()">Generovať nové \(\mathbf{r_1}, \mathbf{r_2}\)</button>
                     </div></div>
 
-                    <div class="containervnutro2">- 5.
-                    <div class="containervnutro">
+                    <div class="containervnutro2"><b style="font-size: 0.88rem; font-weight: bold;">Vypočitanie pomocnej časti ciphertextu, ktorá prijemcovi umožni správu odmaskovať</b>
+                    <div class="containervnutro" style="margin:5px 0px">
                         <b>Vypočítame u</b>
                          <div class="tooltip right" style="margin-bottom: 5px;">
-                             <a href="rot.html" class="card-link">\(u=r_1+r_2\cdot h\)</a>
+                             <a href="rot.html" class="card-link">\(\mathbf{u}=\mathbf{r_1}+\mathbf{r_2}\cdot \mathbf{h}\)</a>
                             <div class="tooltip-text">
-                                Predpokladajme, že:
+                                Definujme binárnu operáciu \( \cdot\) ako:
                                  \[
-                r_2 \cdot h = r_2 \times \operatorname{rot}(h)^T
+                \mathbf{r_2} \cdot \mathbf{h} = \mathbf{r_2} \times \operatorname{rot}(\mathbf{h})^T
                 \]
                 KLIKNI pre viac info
                                 <span class="tooltip-arrow"></span>
@@ -294,7 +291,7 @@
 
                         <div style="display:flex;align-items:center;gap:6px;"><b>u=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(r_1\)
+                                \(\mathbf{r_1}\)
                                 <div id="r1-display2" class="vector-display"
                                     style="background: #f2c1ff;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                     0000000000000000</div>
@@ -302,13 +299,13 @@
                             <div
                                 style="border-radius: 8px;display:flex;align-items:center;gap:6px;border: 2px solid rgb(168, 168, 168);padding: 5px;">
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(r_2\)
+                                    \(\mathbf{r_2}\)
                                     <div id="r2-display2" class="vector-display"
                                         style="background: #c992d5;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                         0000000000000000</div>
                                 </div><b>x</b>
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(rot(h)^T\)
+                                    \(rot(\mathbf{h})^T\)
                                     <div id="roth-display2" class="matice"
                                         style=" line-height: 0.75;font-size: 0.7rem; letter-spacing: 2px;margin: 1px;background:#b8e9aa;">
                                     </div>
@@ -317,14 +314,14 @@
                         </div>
                         <div style="display:flex;align-items:center;gap:6px;margin:10px"><b>u=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(r_1\)
+                                \(\mathbf{r_1}\)
                                 <div id="r1-display3" class="vector-display"
                                     style="background:#f2c1ff;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
                                     0000000000000000</div>
                             </div><b>+</b>
                             <div style="border: 2px solid rgb(168, 168, 168);padding: 5px;border-radius: 4px;">
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(r_2\cdot h \text{ alebo } r_2\times rot(h)^T \)
+                                    \(\mathbf{r_2}\cdot \mathbf{h} \text{ alebo } \mathbf{r_2}\times rot(\mathbf{h})^T \)
                                     <div id="pomoc_u-display" class="vector-display"
                                         style="background: rgb(198, 198, 198);font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
                                         0000000000000000</div>
@@ -336,8 +333,8 @@
                             </div>
                         </div>
                     </div></div>
-                    <div class="containervnutro2">- 6.
-                    <div class="containervnutro">
+                    <div class="containervnutro2">Zamaskovanie správy
+                    <div class="containervnutro" style="margin:5px 0px">
                         <b>Zvolíme (Alicinu) správu, ktorú chceme bezpečne poslať:</b>
                         <div class="tooltip right">
                             <div><b>m=</b>
@@ -354,7 +351,7 @@
                         <b>A zakódujeme ju kódom G:</b>
                         <div style="display:flex;align-items:center;gap:6px;"><b>mG=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(m\)
+                                \(\mathbf{m}\)
                                 <div id="m-display" class="vector-display"
                                     style="background: #cecece;font-size: 0.8rem; letter-spacing: 2px;margin: 1px;padding:2px">
                                     0000000000000000</div>
@@ -369,17 +366,16 @@
                                 style="background: #cecece;font-size: 0.8rem; letter-spacing: 2px;margin: 1px;padding:2px">
                                 0000000000000000</div>
                         </div>
-                    </div></div>
+                    </div>
 
-<div class="containervnutro2"> - 7. Zamaskujeme správu
-                    <div class="containervnutro">
+                    <div class="containervnutro" style="margin:5px 0px">
                         <b>Vypočítame v: k zakódovanej správe mG pridáme "šum"</b>
                          <div class="tooltip right" style="margin-bottom: 5px;">
-                             <a href="rot.html" class="card-link">\(v=mG+r_2\cdot s + e\)</a>
+                             <a href="rot.html" class="card-link">\(\mathbf{v}=\mathbf{mG}+\mathbf{r_2}\cdot \mathbf{s} + \mathbf{e}\)</a>
                             <div class="tooltip-text">
-                                 Predpokladajme, že:
+                                 Definujme binárnu operáciu \( \cdot\) ako:
                                  \[
-                r_2 \cdot s = r_2 \times \operatorname{rot}(s)^T
+                \mathbf{r_2} \cdot \mathbf{s} = \mathbf{r_2} \times \operatorname{rot}(\mathbf{s})^T
                 \]
                 KLIKNI pre viac info
                                 <span class="tooltip-arrow"></span>
@@ -392,7 +388,7 @@
 
                         <div style="display:flex;align-items:center;gap:4px;"><b>v=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(mG\)
+                                \(\mathbf{mG}\)
                                 <div id="mG-display2" class="vector-display"
                                     style="background: #cecece;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                     0000000000000000</div>
@@ -401,13 +397,13 @@
                             <div
                                 style="border-radius: 8px;display:flex;align-items:center;gap:6px;border: 2px solid rgb(168, 168, 168);padding: 5px;">
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(r_2\)
+                                    \(\mathbf{r_2}\)
                                     <div id="r2-display3" class="vector-display"
                                         style="background: #c992d5;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                         0000000000000000</div>
                                 </div><b>x</b>
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(rot(s)^T\)
+                                    \(rot(\mathbf{s})^T\)
                                     <div id="rots-display" class="matice"
                                         style=" line-height: 0.75;font-size: 0.7rem; letter-spacing: 2px;margin: 1px;background:#f8b97a;">
                                     </div>
@@ -416,21 +412,21 @@
                         </div>
                         <div style="display:flex;align-items:center;gap:6px;margin:10px"><b>v=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(mG\)
+                                \(\mathbf{mG}\)
                                 <div id="mG-display3" class="vector-display"
                                     style="background:#cecece;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                     0000000000000000</div>
                             </div><b>+</b>
                             <div style="border: 2px solid rgb(168, 168, 168);padding: 5px;border-radius: 4px;">
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(r_2\cdot s \text{ alebo } r_2\times rot(s)^T \)
+                                    \(\mathbf{r_2}\cdot \mathbf{s} \text{ alebo } \mathbf{r_2}\times rot(\mathbf{s})^T \)
                                     <div id="sr1-display" class="vector-display"
                                         style="background: rgb(198, 198, 198);font-size: 0.7rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                         0000000000000000</div>
                                 </div>
                             </div><b>+</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(e\)
+                                \(\mathbf{e}\)
                                 <div id="e-display2" class="vector-display"
                                     style="background:#ea9090;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                     0000000000000000</div>
@@ -443,15 +439,15 @@
                             </div>
                             <div class="tooltip-text"><b>Z tohto vektora nedokážeme odvodiť Alicinu spravu pretože:</b>
                                 $$\begin{aligned}
-                                v&= mG + s\cdot r_2 + e\\
-                                &= mG + \text{hustý vektor} \cdot \text{riedky vektor} + \text{riedky vektor}\\
-                                &= mG+ \text{chyba, ktorú C.Decode() neodhalí.}
+                                \mathbf{v}&= \mathbf{mG} + \mathbf{s}\cdot \mathbf{r_2} + \mathbf{e}\\
+                                &= \mathbf{mG} + \text{hustý vektor} \cdot \text{riedky vektor} + \text{riedky vektor}\\
+                                &= \mathbf{mG}+ \text{chyba, ktorú C.Decode() neodhalí.}
                                 \end{aligned}$$
 
                                 <span class="tooltip-arrow"></span>
                             </div>
-                        </div>
-                    </div></div>
+                        </div></div>
+                    </div>
 
 
 
@@ -471,7 +467,7 @@
                         </div>
                     </a>
                     <div class="tooltip-text" style="text-align: center;">
-                        <b>Poznáme u a h, nevedeli by sme zistiť r_1 a r_2?</b><br>
+                        <b>Poznáme u a h, nevedeli by sme zistiť \(\mathbf{r_1}\) a \(\mathbf{r_2}\)?</b><br>
                         KLIKNI->
 
                         <span class="tooltip-arrow"></span>
@@ -485,14 +481,13 @@
                 <div class="container column" style="flex:1.75">
                     <h2>Bob</h2>
 
-                    <div class="containervnutro2">- 8.
                     <div class="containervnutro">
                          <div class="tooltip left" style="margin-bottom: 5px;">
-                             <a href="rot.html" class="card-link"><b>Vypočítame \(v - y \cdot u\)</b></a>
+                             <a href="rot.html" class="card-link"><b>Vypočítame \(\mathbf{v} - \mathbf{y} \cdot \mathbf{u}\)</b></a>
                             <div class="tooltip-text">
-                                Predpokladajme, že:
+                                Definujme binárnu operáciu \( \cdot\) ako:
                                  \[
-                y \cdot u = y \times \operatorname{rot}(u)^T
+                \mathbf{y} \cdot \mathbf{u} = \mathbf{y} \times \operatorname{rot}(\mathbf{u})^T
                 \]
                 KLIKNI pre viac info
                                 <span class="tooltip-arrow"></span>
@@ -502,7 +497,7 @@
 
                         <div style="display:flex;align-items:center;gap:6px;">
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(v\)
+                                \(\mathbf{v}\)
                                 <div id="v-display2" class="vector-display"
                                     style="background: #f9d4af;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                     0000000000000000</div>
@@ -510,13 +505,13 @@
                             <div
                                 style="border-radius: 8px;display:flex;align-items:center;gap:6px;border: 2px solid rgb(168, 168, 168);padding: 5px;">
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(y\)
+                                    \(\mathbf{y}\)
                                     <div id="y-display3" class="vector-display"
                                         style="background: #5ed4ce;font-size: 0.6rem; letter-spacing: 1px;margin: 1px;padding:1px">
                                         0000000000000000</div>
                                 </div><b>x</b>
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(rot(u)^T\)
+                                    \(rot(\mathbf{u})^T\)
                                     <div id="rotu-display" class="matice"
                                         style=" line-height: 0.75;font-size: 0.7rem; letter-spacing: 2px;margin: 1px;background:#c39a71;">
                                     </div>
@@ -525,14 +520,14 @@
                         </div>
                         <div style="display:flex;align-items:center;gap:6px;margin:10px">
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                \(v\)
+                                \(\mathbf{v}\)
                                 <div id="v-display3" class="vector-display"
                                     style="background:#f9d4af;font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
                                     0000000000000000</div>
                             </div><b>-</b>
                             <div style="border: 2px solid rgb(168, 168, 168);padding: 5px;border-radius: 4px;">
                                 <div class="containervnutro" style="margin:0px;padding: 0px;">
-                                    \(y\cdot u \text{ alebo } y\times rot(u)^T \)
+                                    \(\mathbf{y}\cdot \mathbf{u} \text{ alebo } \mathbf{y}\times rot(\mathbf{u})^T \)
                                     <div id="uy-display" class="vector-display"
                                         style="background: rgb(198, 198, 198);font-size: 1rem; letter-spacing: 1px;margin: 1px;padding:2px">
                                         0000000000000000</div>
@@ -540,7 +535,7 @@
                             </div>
                         </div>
                         <div class="tooltip left">
-                            <div style="display:flex;align-items:center;gap:6px;">\(v - y \cdot u\)=
+                            <div style="display:flex;align-items:center;gap:6px;">\(\mathbf{v} - \mathbf{y} \cdot \mathbf{u}\)=
                                 <div id="final-display" class="vector-display" style="background: #ff59d3;">
                                     0000000000000000
                                 </div>
@@ -548,28 +543,27 @@
                             <div class="tooltip-text">
                                 <b>Tento vektor je možné dekódovať, pretože nastane:</b>
                                 $$\begin{aligned}
-                                (v - y\cdot u)&= mG + s\cdot r_2 + e - y\cdot (r_1 + h \cdot r_2) \\
-                                &= mG + (x + y \cdot h)\cdot r_2 + e - y \cdot r_1 - y \cdot h \cdot r_2\\
-                                &= mG + x\cdot r_2 + \cancel{y \cdot h\cdot r_2} + e - y \cdot r_1
-                                - \cancel{y \cdot h \cdot r_2}\\
-                                &= mG + x\cdot r_2 + e - y \cdot r_1\\
-                                &= mG+\text{riedky vektor}
+                                (\mathbf{v} - \mathbf{y}\cdot \mathbf{u})&= \mathbf{mG} + \mathbf{s}\cdot \mathbf{r_2} + \mathbf{e} - \mathbf{y}\cdot (\mathbf{r_1} + \mathbf{h} \cdot \mathbf{r_2}) \\
+                                &= \mathbf{mG} + (\mathbf{x} + \mathbf{y} \cdot \mathbf{h})\cdot \mathbf{r_2} + \mathbf{e} - \mathbf{y} \cdot \mathbf{r_1} - \mathbf{y} \cdot \mathbf{h} \cdot \mathbf{r_2}\\
+                                &= \mathbf{mG} + \mathbf{x}\cdot \mathbf{r_2} + \cancel{\mathbf{y} \cdot \mathbf{h}\cdot \mathbf{r_2}} + \mathbf{e} - \mathbf{y} \cdot \mathbf{r_1}
+                                - \cancel{\mathbf{y} \cdot \mathbf{h} \cdot \mathbf{r_2}}\\
+                                &= \mathbf{mG} + \mathbf{x}\cdot \mathbf{r_2} + \mathbf{e} - \mathbf{y} \cdot \mathbf{r_1}\\
+                                &= \mathbf{mG}+\text{riedky vektor}
                                 \end{aligned}$$
                                 Poznámka: operácia \(\cdot\) je komutatívna.
 
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
-                    </div></div>
+                    </div>
 
-                    <div class="containervnutro2"> - 9.
                     <div class="containervnutro">
                         <div class="tooltip left">
-                            <b>Odstránime chyby a získame tajnú správu: C.Decode(\(v - y \cdot u\))</b>
+                            <b>Odstránime chyby a získame tajnú správu: C.Decode(\(\mathbf{v} - \mathbf{y} \cdot \mathbf{u}\))</b>
                             <div class="tooltip-text"><b>C.Decode() pri demo HQC funguje takto:</b><br> Príklad:
                                 \[
                                 \begin{gathered}
-                                v - y \cdot u =
+                                \mathbf{v} - \mathbf{y} \cdot \mathbf{u} =
                                 \underbrace{1,0,1,1,0,1,0}_{\text{prevažuje 1}}
                                 \;
                                 \underbrace{0,0,1,0,0,0,1}_{\text{prevažuje 0}}
@@ -591,7 +585,7 @@
                         </div>
                         <div id="check-msg2"></div>
 
-                    </div></div>
+                    </div>
                 </div>
             </div>
         </div>

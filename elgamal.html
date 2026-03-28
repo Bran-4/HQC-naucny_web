@@ -29,7 +29,6 @@
 
                 <div class="container column" style="flex:1.65">
                     <h2>Bob</h2>
-                    <div class="containervnutro2"> - 1.
                     <div class="containervnutro">
                         <b>Určíme verejné parametre:</b>
 
@@ -37,39 +36,37 @@
                             \[ p = 23, \alpha = 5 \]
                             <div class="tooltip-text">
                                 p- veľké prvočíslo<br>
-                                \(\alpha\)- primitívny prvok \(\alpha \in Z_p^* \text{ alebo patrí podgrupe }
-                                Z_p^*\)<br>
+                                \(\alpha\)- primitívny prvok \(\alpha \in Z_p^* 
+                                \)<br>
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
-                    </div></div>
+                    </div>
 
-                    <div class="containervnutro2"> - 2.
                     <div class="containervnutro">
                         <b>Zvolíme (Bobov) súkromný kľúč</b>
                         <div class="tooltip left">
                             <div><span style="font-weight:bold;">d</span> = <input type="number" id="input_d" value="6"
-                                    min="2" max="21" style="background: #5e8dfc;padding:0px 2px;font-weight:bold;"
+                                    min="2" max="21" style="background: #ffd059;padding:0px 2px;font-weight:bold;"
                                     oninput="vypocitajElgamal()"></div>
                             <div class="tooltip-text">
                                 \(d \in \{2, \dots, p - 2\} \)
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
-                    </div></div>
+                    </div>
 
-                    <div class="containervnutro2"> - 3.
                     <div class="containervnutro">
                         <b>Vypočitáme \( \beta\) (súčasť public key)</b>
                         <div>\( \beta \equiv \alpha \)<sup><span
-                                    style="background: #5e8dfc;padding:0px 2px;font-weight:bold;">d</span></sup> \(
+                                    style="background: #ffd059;padding:0px 2px;font-weight:bold;">d</span></sup> \(
                             \pmod{p} \): <br></div>
                         <div>\( \beta \equiv 5 \)<sup><span id="txt_d1"
-                                    style="background: #5e8dfc;padding:0px 2px;font-weight:bold;">6</span></sup> \(
+                                    style="background: #ffd059;padding:0px 2px;font-weight:bold;">6</span></sup> \(
                             \pmod{23} \): <br></div>
 
                         <strong>\( \beta = \) <span id="out_beta">?</span></strong>
-                    </div></div>
+                    </div>
 
                 </div>
             </div>
@@ -87,8 +84,8 @@
             <div class="columns">
                 <div class="container column" style="flex:1.75">
                     <h2>Alica</h2>
-                    <div class="containervnutro2">- 4. Zvolíme súkromný parameter (Alicin)
-                    <div class="containervnutro">
+                    <div class="containervnutro2">Generovanie náhodnosti
+                    <div class="containervnutro" style="margin:5px 0px">
                         <b>Zvolíme i</b>
                         <div class="tooltip right">
                             <div style="font-weight:bold;">\( i \) = <input type="number" id="input_i"
@@ -102,8 +99,8 @@
 
                     </div></div>
 
-                    <div class="containervnutro2">- 5. 
-                    <div class="containervnutro">
+                    <div class="containervnutro2"><b style="font-size: 0.88rem; font-weight: bold;">Vypočitanie pomocnej časti ciphertextu, ktorá prijemcovi umožni správu odmaskovať</b> 
+                    <div class="containervnutro" style="margin:5px 0px">
                         <b>Vypočitáme dočasný kľúč:</b>
                         <div>
                             \( k_E \equiv \alpha \)<sup><span
@@ -118,20 +115,22 @@
 
                     </div></div>
 
-                    <div class="containervnutro2">- 6.
-                    <div class="containervnutro">
+                    <div class="containervnutro2">Zamaskovanie správy
+                    <div class="containervnutro" style="margin:5px 0px">
                         <b>Zvolíme (Alicinu) správu, ktorú chceme bezpečne poslať:</b>
                         <div>Správa \( x \): <input type="number" id="input_x" value="10"
                                 oninput="vypocitajElgamal()"><br></div>
-                    </div></div>
+                    </div>
 
-                    <div class="containervnutro2">- 7. Zamaskujeme správu
-                    <div class="containervnutro">
+                
+                    <div class="containervnutro" style="margin:5px 0px">
                         <b>Vypočítame maskovací kľúč</b>
                         <div>\( k_M \equiv \)
                             <span style=" font-weight:bold;">\(\beta\)</span><sup><span
                                     style="background: #64ff64;padding:0px 2px;font-weight:bold;">i</span></sup>
-                            \( \pmod{23} \) <br>
+                            \( \pmod{p} \) =( \(\alpha\)<sup><span
+                                    style="background: #ffd059; padding:0px 2px; font-weight:bold;">d</span></sup>)  <sup><span
+                                    style="background: #64ff64; padding:0px 2px; font-weight:bold;">i</span></sup>  \( \pmod{p} \)<br>
                             <div>\( k_M \equiv \)
                                 <span id="txt_beta2" style="font-weight:bold;">?</span><sup><span id="txt_i2"
                                         style="background: #64ff64;padding:0px 2px;font-weight:bold;">3</span></sup>
@@ -140,7 +139,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="containervnutro">
+                    <div class="containervnutro" style="margin:5px 0px">
                         <b>Zašifrujeme správu</b>
                         <div>
                             \( y \equiv k_M \cdot x \pmod{p} \)<br>
@@ -175,25 +174,23 @@
                 </div>
                 <div class="container column" style="flex:1.75">
                     <h2>Bob</h2>
-                    <div class="containervnutro2">- 8.
                     <div class="containervnutro">
                         <b>Rekonštrukcia maskovacieho kľuča</b>
                         <div>
                             \( k_M \equiv \)
                             <span style="font-weight:bold;">\(k_E\)</span><sup><span
-                                    style="background: #5e8dfc; padding:0px 2px; font-weight:bold;">d</span></sup>
+                                    style="background: #ffd059; padding:0px 2px; font-weight:bold;">d</span></sup>
                             \( \pmod{p} \)=( \(\alpha\)<sup><span
                                     style="background: #64ff64; padding:0px 2px; font-weight:bold;">i</span></sup>)  <sup><span
-                                    style="background: #5e8dfc; padding:0px 2px; font-weight:bold;">d</span></sup>  \( \pmod{p} \)<br>
+                                    style="background: #ffd059; padding:0px 2px; font-weight:bold;">d</span></sup>  \( \pmod{p} \)<br>
                             \( k_M \equiv \)
                             <span id="txt_ke2" style="font-weight:bold;">?</span><sup><span id="txt_d2"
-                                    style="background: #5e8dfc; padding:0px 2px; font-weight:bold;">6</span></sup>
+                                    style="background: #ffd059; padding:0px 2px; font-weight:bold;">6</span></sup>
                             \( \pmod{23} \): <br>
                             <strong>\( k_M = \) <span id="out_km_bob">?</span></strong>
                         </div>
-                    </div></div>
+                    </div>
 
-                    <div class="containervnutro2">- 9.
                     <div class="containervnutro">
 
                         <b>Dešifrovanie správy</b>
@@ -205,7 +202,7 @@
                             <strong>\( x = \) <span id="out_decrypted_x">?</span></strong>
                         </div>
 
-                    </div></div>
+                    </div>
 
 
                 </div>

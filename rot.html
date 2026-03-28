@@ -323,21 +323,21 @@
 
 <body>
     <header>
-        <h2>Cirkulantná matica: rot(v)</h2>
+        <h2>Cirkulantná matica: rot(mathbf{v})</h2>
         <a href="index.html">&larr; Späť do menu</a>
     </header>
 
 <main>
     <div class="container">
         <h2>Teoria</h2>
-        <p>V tejto variácii funkcie \( \text{rot}(v) \) vezmeme vstupný vektor $$v = (v_0, v_1, \dots, v_{n-1})^T$$ a
+        <p>V tejto variácii funkcie \( \text{rot}(\mathbf{v}) \) vezmeme vstupný vektor $$\mathbf{v} = (v_0, v_1, \dots, v_{n-1})^T$$ a
             použijeme ho ako <strong>prvý stĺpec</strong> matice.</p>
         <p>Nasledujúce stĺpce vzniknú cyklickým posunom (rotáciou) hodnôt smerom <strong>nadol</strong>.</p>
             
         <div class="columns">
         <div class="result3">Matematický zápis
         $$
-        \text{rot}(v) =
+        \text{rot}(\mathbf{v}) =
         \begin{pmatrix}
         v_0 & v_{n-1} & v_{n-2} & \dots & v_1 \\
         v_1 & v_0 & v_{n-1} & \dots & v_2 \\
@@ -355,20 +355,29 @@
         <p>Zadaj vektor (napr. bity alebo čísla oddelene čiarkou). </p>
 
         <div class="controls">
-            <p>v=</p>
+            <p>\(\mathbf{v}\)=</p>
             <input type="text" id="vectorInput" value="v0,v1,v2,v3,v4">
             <button onclick="updateViz()">Vygenerovať</button>
         </div>
-        <p>Zo zadaného vektora v vznikne matica rot(v):</p>
+        <p>Zo zadaného vektora \(\mathbf{v}\) vznikne matica rot(\(\mathbf{v}\)):</p>
         <div id="d3-canvas"></div>
+        <div class="result3">
+        <b style="font-size: large;">Úspora pamäte</b><br>
+        Nepotrebujeme poznať celú maticu, stači nam poznať vektor, ktorý ju generuje.</div>
+
     </div>
     <div class="container">
-        <h2>Prečo použivať cirkulantné matice?</h2>
-        <h3>Pretože platí \(\text{ v } \mathbb{F_2}[X]/(X^{n}-1)\):</h3>
+        <h2>Reprezentacia násobenia maticou \(rot(\mathbf{y})^T\) pomocou polynómov</h2>
+        Vektor \(\mathbf{x}\) môžeme reprezentovať ako polynóm:
+
+\[\mathbf{x} = \alpha_{n-1} X^{n-1} + \alpha_{n-2} X^{n-2} + \dots + \alpha_0 X^0\]
+
+\[\mathbf{x} = (\alpha_0, \alpha_1, \dots, \alpha_{n-1})\]
+        <h3>Potom platí:</h3>
         <details class="math_block">
             <summary class="math-formula">
                 \[
-                x \cdot y = x \times \operatorname{rot}(y)^T
+                x \cdot y = \mathbf{x} \times \operatorname{rot}(\mathbf{y})^T
                 \]
             </summary>
 
@@ -379,16 +388,17 @@
                 cirkulantnou maticou vytvorenou z vektora \(y\).
             </div>
         </details>
-        <p>Príklad:</p>
+        <div style="text-align: center;">kde \( \cdot\) označuje nasobenie v \(\mathbb{F_2}[X]/(X^{n}-1)\)</div>
+        <h3>Príklad:</h3>
 
         <div class="math_block">
-            <div class="result3">Majme \(\text{ v } \mathbb{F_2}[x]/(x^{4}-1)\): $$x=x^3+x+1=>(1,1,0,1)$$
-                $$y=x^2+x+1=>(1,1,1,0)$$</div>
+            <div class="result3">Majme \(\text{ v } \mathbb{F_2}[x]/(x^{4}-1)\): $$\mathbf{x}=x^3+x+1=>(1,1,0,1)$$
+                $$\mathbf{y}=x^2+x+1=>(1,1,1,0)$$</div>
         </div>
 
         <div class="columns">
             <div class="container column">
-                <h2>\( x \times \operatorname{rot}(y)^T\)</h2>
+                <h2>\( \mathbf{x} \times \operatorname{rot}(\mathbf{y})^T\)</h2>
                 <div class="matrices-container">
                     <div>
                         <div class="matrix-label">Vektor x</div>
@@ -398,7 +408,7 @@
                     <div class="operator">×</div>
 
                     <div>
-                        <div class="matrix-label">Matica \(\operatorname{rot}(y)^T\)</div>
+                        <div class="matrix-label">Matica \(\operatorname{rot}(\mathbf{y})^T\)</div>
                         <div class="matrix square" id="squareMatrix"></div>
                     </div>
 

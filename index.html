@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -126,24 +127,431 @@
     <div class="intro">
         <h2>Čo je HQC?</h2>
         <p>
-            HQC je post-kvantový kryptosystém založený na kódovej kryptografii.
+            HQC(Hamming Quasi-Cyclic) je post-kvantový kryptosystém založený na kódovej kryptografii.
             Je navrhnutý tak, aby odolával útokom kvantových počítačov a patrí
-            medzi kandidátov novej generácie bezpečných kryptografických schém.
+            medzi kandidátov novej generácie bezpečných kryptografických schém. <br>
+            <b>Organizácia NIST</b> standardizuje <b>HQC KEM</b>(Key Encapsulation Mechanism), 
+            tento naučný web popisuje <b>HQC PKE</b>(Public Key Encryption).<br>
+            Obe schémy sú si konštrukčne veľmi podobné a zdieľajú rovnaký matematický základ; hlavný rozdiel spočíva v tom, že zatiaľ čo PKE slúži na priame šifrovanie správy, 
+            KEM sa využíva na bezpečný prenos (zapuzdrenie) symetrického kľúča pre ďalšiu komunikáciu.
         </p>
     </div>
     <div class="steps">
        
 
-        <a href="hqcdemo.html" class="step">
-            <div class="step-number">Demo</div>
-            <div class="step-title">HQC kryptosystém</div>
-        </a>
+      
          HQC kryptosystém ma podobnú štruktúru ako Elgamal. Je vhodné si najprv pozrieť:
         <a href="elgamal.html" class="step" style="margin-left: 100px;margin-right: 100px; padding: 20px;">
             <div class="step-number">Demo</div>
             <div class="step-title">Elgamal</div>
         </a>
-        <h2 style="font-size: 1rem;margin: 0px;">Porovnajte kroky 1.-9. v týchto dvoch systémoch. Vidíte podobnosť?</h2>
+          <a href="hqcdemo.html" class="step">
+            <div class="step-number">Demo</div>
+            <div class="step-title">HQC kryptosystém</div>
+        </a>
+        Pri oboch kryptosystémoch pozostáva šifrovanie z nasledujucich krokoch:<br>1. Generovanie náhodnosti
+<br>2. Vypočitanie pomocnej časti ciphertextu, ktorá príjemcovi umožní správu odmaskovať<br>3. 
+Zamaskovanie správy   
+    </div>
+</main>
+
+</body>
+</html>-->
+<!--
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HQC – náučná aplikácia</title>
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        /* Úprava hlavičky - prebije style.css */
+        header h1 {
+            font-size: 28px !important; 
+            letter-spacing: 2px;
+            margin: 0;
+            padding: 10px 0;
+        }
+
+        /* ===== INTRO ===== */
+        .intro {
+            background: linear-gradient(135deg, #ffffff, #f1fff6);
+            border-left: 6px solid #4df767;
+            border-radius: 14px;
+            padding: 28px 32px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            margin-bottom: 50px;
+        }
+
+        .intro p {
+            margin: 0;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        /* ===== STEPS & TEXT ===== */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-text {
+            color: #444;
+            line-height: 1.6;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* ===== SPOLOČNÝ DIV PRE KROKY ===== */
+        .encryption-steps-box {
+            background-color: rgb(206, 219, 203);
+            border-radius: 14px;
+            padding: 24px 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            color: #111;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .encryption-steps-box ol {
+            margin: 0;
+            padding-left: 20px;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .encryption-steps-box li {
+            margin-bottom: 8px;
+        }
+
+        .encryption-steps-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        .encryption-steps-box li::marker {
+            font-weight: bold;
+            color: #222;
+        }
+
+        /* ===== BUTTONS ===== */
+        .step {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 26px 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .step-main {
+            border: 2px solid rgba(77,247,103,0.3);
+        }
+
+        /* Menšie tlačidlo pre Elgamal (vycentrované) */
+        .step-small {
+            padding: 15px 20px;
+            width: 100%;
+            max-width: 400px;
+            align-self: center; /* Vycentrovanie */
+            text-align: center;
+            opacity: 0.85;
+        }
+
+        .step::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(77,247,103,0.15), transparent);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+            opacity: 1;
+        }
+
+        .step:hover::before {
+            opacity: 1;
+        }
+
+        .step-number {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4df767;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        
+        .step-small .step-number {
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #222;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-small .step-title {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>HQC</h1>
+</header>
+
+<main>
+    <div class="intro">
+        <h2>Čo je HQC?</h2>
+        <p>
+            <strong>HQC</strong> (Hamming Quasi-Cyclic) je post-kvantový kryptosystém založený na kódovej kryptografii.
+            Je navrhnutý tak, aby odolával útokom kvantových počítačov a patrí
+            medzi kandidátov novej generácie bezpečných kryptografických schém. <br><br>
+            <b>Organizácia NIST</b> štandardizuje <b>HQC KEM</b> (Key Encapsulation Mechanism), 
+            kým tento náučný web sa zameriava na <b>HQC PKE</b> (Public Key Encryption).<br><br>
+            Obe schémy sú si konštrukčne veľmi podobné a zdieľajú spoločný matematický základ. Hlavný rozdiel spočíva v ich využití: zatiaľ čo PKE slúži na priame šifrovanie samotnej správy, 
+            KEM sa využíva na bezpečný prenos (zapuzdrenie) symetrického kľúča pre ďalšiu komunikáciu.
+        </p>
+    </div>
+    
+    <div class="steps">
+        <p class="info-text">
+            HQC kryptosystém má podobnú štruktúru ako Elgamal. Ak sa s touto problematikou ešte len zoznamuješ, je vhodné si najprv pozrieť:
+        </p>
+
+        <a href="elgamal.html" class="step step-small">
+            <div class="step-number">Demo</div>
+            <div class="step-title">Elgamal kryptosystém</div>
+        </a>
+
+        <a href="hqcdemo.html" class="step step-main">
+            <div class="step-number">Hlavné Demo</div>
+            <div class="step-title">HQC kryptosystém</div>
+        </a>
+
+        
+        
+        <div class="encryption-steps-box">
+            <p>
+            Pri oboch kryptosystémoch pozostáva šifrovanie z nasledujúcich krokov:
+        </p>
+            <ol>
+                <li><strong>Generovanie náhodnosti</strong></li>
+                <li><strong>Vypočítanie pomocnej časti ciphertextu</strong>, ktorá príjemcovi umožní správu odmaskovať</li>
+                <li><strong>Zamaskovanie správy</strong></li>
+            </ol>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HQC – náučná aplikácia</title>
+    <style>
+        /* PONECHANÝ ZÁKLADNÝ STYLE.CSS */
+        header {
+            background-color: #ffffff;
+            color: white; /* Text v h1 je čierny, toto ovplyvní iné prvky ak tam sú */
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        header h1 {
+            font-size: 20px !important;
+            color: #2c3e50; /* Oprava farby aby bola čitateľná na bielom pozadí */
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background-color: #27ae60;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7f6;
+            margin: 0;
+        }
+
+        main {
+            max-width: 1000px; 
+            margin: 0 auto;
+            padding: 40px 20px; /* Zväčšený horný padding pre vzdušnosť */
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        /* ===== JEMNÉ VYLEPŠENIA PREHĽADNOSTI ===== */
+        
+        .intro {
+            background: #ffffff;
+            border-left: 8px solid #27ae60;
+            border-radius: 8px; /* Jemnejšie zaoblenie */
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .intro h2 {
+            text-align: left; /* Zarovnanie nadpisu v intro k textu */
+            margin-top: 0;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px; /* Lepšia čitateľnosť na širokých monitoroch */
+            margin: 0 auto;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 15px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        /* SPOLOČNÝ DIV PRE KROKY */
+        .encryption-steps-box {
+            
+            background-color: #e8f4ea; /* Jemnejšia zelená */
+            border-radius: 12px;
+            padding: 25px 35px;
+            border: 1px solid rgba(39, 174, 96, 0.1);
+            color: #35485b;
+              font-size: 14px;
+               border-left: 5px solid #27ae60;
+
+        }
+
+        .encryption-steps-box ol {
+            margin: 15px 0 0 0;
+            padding-left: 25px;
+            font-weight: 500;
+        }
+
+        /* TLAČIDLÁ (Karty) */
+        .step {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px 25px;
+            box-shadow: 0 4px 11px rgba(0,0,0,0.2);
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid #eee;
+            transition: all 0.2s ease;
+            display: block;
+        }
+
+        .step:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            border-color: #4df767;
+        }
+
+        .step-main {
+             background-color: #ffffff;
+        }
+
+        .step-small {
+            width: fit-content;
+            min-width: 325px;
+            align-self: center;
+            padding: 12px 20px;
+            background-color: #f9f9f9;
+        }
+
+        .step-number {
+            font-size: 12px;
+            font-weight: bold;
+            color: #27ae60;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>Náučna aplikácia o HQC</h2>
+    </header>
+
+<main>
+    <div class="intro">
+        <h2>Čo je HQC?</h2>
+        <p>
+             <b>HQC</b>(Hamming Quasi-Cyclic) je post-kvantový kryptosystém založený na kódovej kryptografii.
+            Je navrhnutý tak, aby odolával útokom kvantových počítačov a patrí
+            medzi kandidátov novej generácie bezpečných kryptografických schém. <br><br>
+            <b>Organizácia NIST</b> standardizuje verziu <b>HQC KEM</b>(Key Encapsulation Mechanism), 
+            tento naučný web popisuje <b>HQC PKE</b>(Public Key Encryption).<br>
+            Obe schémy sú si konštrukčne veľmi podobné a zdieľajú rovnaký matematický základ, hlavný rozdiel spočíva v tom, že zatiaľ čo PKE slúži na priame šifrovanie správy, 
+            KEM sa využíva na bezpečný prenos (zapuzdrenie) symetrického kľúča pre ďalšiu komunikáciu.
+        </p>
+    </div>
+    
+    <div class="steps">
+        <p class="info-text">
+            HQC kryptosystém má podobnú štruktúru ako Elgamal. Je vhodné si najprv pozrieť:
+        </p>
+
+        <a href="elgamal.html" class="step step-small">
+            <div class="step-number">Základy</div>
+            <div class="step-title">Elgamal kryptosystém</div>
+        </a>
+
+        <a href="hqcdemo.html" class="step step-main">
+            <div class="step-number">Hlavná časť</div>
+            <div class="step-title">HQC kryptosystém Demo</div>
+        </a>
+
+        <div class="encryption-steps-box">
+            <h2 style="margin-top: 0px;">Všimnite si:</h2>
+            <p><strong>Pri oboch kryptosystémoch pozostáva šifrovanie z nasledujucich krokov:</strong></p>
+            <ol>
+                <li>Generovanie náhodnosti</li>
+                <li>Vypočítanie pomocnej časti ciphertextu, ktorá prijemcovi umožni správu odmaskovať</li>
+                <li>Zamaskovanie správy</li>
+            </ol>
+        </div>
     </div>
 </main>
 
