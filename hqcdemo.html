@@ -605,41 +605,21 @@
     </main>
 </body>
 <script src="funkcie.js"></script>
+<script src="hqc.js"></script>
 <script>
-    const n = 21;
-    let h = [];
-    const G = [
-        [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+const n = 21;
+let m_desif=[];
+  const G = [
+      [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
+       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
     ];
-    let roth = [];
-    let w = 1;
-    let x = [];
-    let y = [];
-    let pomocny_s = [];
-    let s = [];
-    let w_e = 1;
-    let e = [];
-    let r_1 = [];
-    let r_2 = [];
-    let w_r = 1;
-    let pomocny_u = [];
-    let u = [];
-    let m = [1, 0, 1];
-    let m1 = [];
-    let mG = [];
-    let rot_s = [];
-    let sr1 = [];
-    let v = [];
-    let rot_u = [];
-    let uy = [];
-    let final = [];
+    let hqc=new HQC(n,G);
 
     function aplikuj_vahy() {
-        w = Number(document.getElementById('w-input').value);
-        w_e = Number(document.getElementById('w_e-input').value);
-        w_r = Number(document.getElementById('w_r-input').value);
+        let w = Number(document.getElementById('w-input').value);
+        let w_e = Number(document.getElementById('w_e-input').value);
+        let w_r = Number(document.getElementById('w_r-input').value);
 
         if (w > 9) {
             w = 9;
@@ -662,12 +642,19 @@
             msg.textContent = "Dešifrovanie je spoĺahlivé.";
             msg.className = "ok";
         }
-        generatenoveXY();
-        generatenove_e();
-        generatenoveR();
+        hqc.w=w;
+        hqc.w_e=w_e;
+        hqc.w_r=w_r;
+
+        hqc.generateE();
+        hqc.generateR();
+        hqc.generateXY();
+        hqc.update();
+        updateUI();
+
     }
     function zmen_spravu(tlacitko, index) {
-        m[index] = (m[index] + 1) % 2;
+        hqc.m[index] = (hqc.m[index] + 1) % 2;
         if (tlacitko.innerText === "0") {
             tlacitko.innerText = "1";
             tlacitko.classList.remove("state-0");
@@ -677,25 +664,28 @@
             tlacitko.classList.remove("state-1");
             tlacitko.classList.add("state-0");
         }
-        update();
+
+        hqc.update();
+        updateUI();
     }
+
     function decode() {
         let j = 0; k = 0; count = 0;
-        for (let i = 0; i < final.length; i++) {
-            if (final[i] == 0) { count++; }
+        for (let i = 0; i < hqc.v_minus_uy.length; i++) {
+            if (hqc.v_minus_uy[i] == 0) { count++; }
             j++;
             if (j > 6) {
                 j = 0;
                 if (count > 3) {
-                    m1[k] = 0;
-                } else { m1[k] = 1; }
+                    m_desif[k] = 0;
+                } else { m_desif[k] = 1; }
                 k++;
                 count = 0;
             }
 
         }
         const msg = document.getElementById('check-msg2');
-        if (JSON.stringify(m) === JSON.stringify(m1)) {
+        if (JSON.stringify(hqc.m) === JSON.stringify(m_desif)) {
             msg.innerHTML =
                 "Dešifrovanie sa podarilo.<br>Odoslaná správa a dešifrovana správa sa zhodujú."
             msg.className = "ok";
@@ -708,73 +698,64 @@
     }
 
     function generateRandomH() {
-        h = generate_vect_h(n);
-        roth = createRotationMatrix(h);
-        update();
+        hqc.generateH();
+        hqc.update();
+        updateUI();
     }
+
     function generatenoveXY() {
-        x = generateSparseVector(n, w);
-        y = generateSparseVector(n, w);
-        update();
+        hqc.generateXY();
+         hqc.update();
+        updateUI();
     }
     function generatenove_e() {
-        e = generateSparseVector(n, w_e);
-        update();
+        hqc.generateE();
+         hqc.update();
+        updateUI();
     }
     function generatenoveR() {
-        r_1 = generateSparseVector(n, w_r);
-        r_2 = generateSparseVector(n, w_r);
-        update();
+        hqc.generateR();
+         hqc.update();
+        updateUI();
     }
 
 
-    function update() {
-        pomocny_s = multiplyVectorMatrix(y, roth);
-        s = addVectors(pomocny_s, x);
-        rot_s = createRotationMatrix(s);
-        pomocny_u = multiplyVectorMatrix(r_2, roth);
-        u = addVectors(pomocny_u, r_1);
-        mG = multiplyVectorMatrix(m, G);
-        sr2 = multiplyVectorMatrix(r_2, rot_s);
-        v = addVectors(mG, addVectors(sr2, e));
-        rot_u = createRotationMatrix(u);
-        uy = multiplyVectorMatrix(y, rot_u);
-        final = addVectors(v, uy);
+    function updateUI() {
         decode();
-        document.getElementById('h-display').innerText = h.join('');
-        document.getElementById('roth-display').innerText = roth.map(row => row.join('')).join('\n');
-        document.getElementById('roth-display2').innerText = roth.map(row => row.join('')).join('\n');
-        document.getElementById('m-display').innerText = m.join('');
-        document.getElementById('m1-display').innerText = m1.join('');
-        document.getElementById('x-display').innerText = x.join('');
-        document.getElementById('x-display2').innerText = x.join('');
-        document.getElementById('x-display3').innerText = x.join('');
-        document.getElementById('y-display').innerText = y.join('');
-        document.getElementById('y-display2').innerText = y.join('');
-        document.getElementById('y-display3').innerText = y.join('');
-        document.getElementById('pomoc-display').innerText = pomocny_s.join('');
-        document.getElementById('s-display').innerText = s.join('');
-        document.getElementById('e-display').innerText = e.join('');
-        document.getElementById('e-display2').innerText = e.join('');
-        document.getElementById('r1-display').innerText = r_1.join('');
-        document.getElementById('r1-display2').innerText = r_1.join('');
-        document.getElementById('r1-display3').innerText = r_1.join('');
-        document.getElementById('r2-display').innerText = r_2.join('');
-        document.getElementById('r2-display2').innerText = r_2.join('');
-        document.getElementById('r2-display3').innerText = r_2.join('');
-        document.getElementById('pomoc_u-display').innerText = pomocny_u.join('');
-        document.getElementById('u-display').innerText = u.join('');
-        document.getElementById('mG-display').innerText = mG.join('');
-        document.getElementById('mG-display2').innerText = mG.join('');
-        document.getElementById('mG-display3').innerText = mG.join('');
-        document.getElementById('rots-display').innerText = rot_s.map(row => row.join('')).join('\n');
-        document.getElementById('sr1-display').innerText = sr2.join('');
-        document.getElementById('v-display').innerText = v.join('');
-        document.getElementById('v-display2').innerText = v.join('');
-        document.getElementById('v-display3').innerText = v.join('');
-        document.getElementById('rotu-display').innerText = rot_u.map(row => row.join('')).join('\n');
-        document.getElementById('uy-display').innerText = uy.join('');
-        document.getElementById('final-display').innerText = final.join('');
+        document.getElementById('h-display').innerText = hqc.h.join('');
+        document.getElementById('roth-display').innerText = hqc.roth.map(row => row.join('')).join('\n');
+        document.getElementById('roth-display2').innerText = hqc.roth.map(row => row.join('')).join('\n');
+        document.getElementById('m-display').innerText = hqc.m.join('');
+        document.getElementById('m1-display').innerText = m_desif.join('');
+        document.getElementById('x-display').innerText = hqc.x.join('');
+        document.getElementById('x-display2').innerText = hqc.x.join('');
+        document.getElementById('x-display3').innerText = hqc.x.join('');
+        document.getElementById('y-display').innerText = hqc.y.join('');
+        document.getElementById('y-display2').innerText = hqc.y.join('');
+        document.getElementById('y-display3').innerText = hqc.y.join('');
+        document.getElementById('pomoc-display').innerText = hqc.y_rotH.join('');
+        document.getElementById('s-display').innerText = hqc.s.join('');
+        document.getElementById('e-display').innerText = hqc.e.join('');
+        document.getElementById('e-display2').innerText = hqc.e.join('');
+        document.getElementById('r1-display').innerText = hqc.r_1.join('');
+        document.getElementById('r1-display2').innerText = hqc.r_1.join('');
+        document.getElementById('r1-display3').innerText = hqc.r_1.join('');
+        document.getElementById('r2-display').innerText = hqc.r_2.join('');
+        document.getElementById('r2-display2').innerText = hqc.r_2.join('');
+        document.getElementById('r2-display3').innerText = hqc.r_2.join('');
+        document.getElementById('pomoc_u-display').innerText = hqc.r_2_rotH.join('');
+        document.getElementById('u-display').innerText = hqc.u.join('');
+        document.getElementById('mG-display').innerText = hqc.mG.join('');
+        document.getElementById('mG-display2').innerText = hqc.mG.join('');
+        document.getElementById('mG-display3').innerText = hqc.mG.join('');
+        document.getElementById('rots-display').innerText = hqc.rot_s.map(row => row.join('')).join('\n');
+        document.getElementById('sr1-display').innerText = hqc.sr2.join('');
+        document.getElementById('v-display').innerText = hqc.v.join('');
+        document.getElementById('v-display2').innerText = hqc.v.join('');
+        document.getElementById('v-display3').innerText = hqc.v.join('');
+        document.getElementById('rotu-display').innerText = hqc.rot_u.map(row => row.join('')).join('\n');
+        document.getElementById('uy-display').innerText = hqc.uy.join('');
+        document.getElementById('final-display').innerText = hqc.v_minus_uy.join('');
     }
 
     function updateG() {
@@ -782,21 +763,11 @@
         document.getElementById('g-display').innerText = G.map(row => row.join('')).join('\n');
         document.getElementById('g-display2').innerText = G.map(row => row.join('')).join('\n');
     }
-
-    // renderG();
-    // Použitie pre tvoje parametre:
+//G sa nemeni, vykreslime ho hned
     updateG();
 
-    //generatenoveXY();
-    x = generateSparseVector(n, w);
-    y = generateSparseVector(n, w);
-    //generatenove_e();
-    e = generateSparseVector(n, w_e);
-    //generatenoveR();
-    r_1 = generateSparseVector(n, w_r);
-    r_2 = generateSparseVector(n, w_r);
-    generateRandomH();
+    hqc.update();
+    updateUI();
 </script>
-
 
 </html>
