@@ -37,34 +37,7 @@
 
     <main>
         <div class="container">
-           <!-- <b>Definícia:</b><br>
-
-Pre kladné celé čísla \(n, k\) a \(w\) rozdelenie \(\mathrm{SD}(n, k, w)\)
-náhodne vyberie
-\[
-H \xleftarrow{\$} \mathbb{F}^{n\times (n-k)}, \qquad
-x \xleftarrow{\$} \mathbb{F}^n \text{ tak, že } \omega(x) = w,
-\]
-a vydá
-\[
-(H, \sigma(x)) = (H, xH^T).
-\]
-
-Nech \(\omega\) je norma na R.  
-Nech \((H^T, y) \in \mathbb{F}^{n\times (n-k)} \times \mathbb{F}^{n-k}\),
-pochádza z SD rozdelenia. Syndrómový dekódovací problém
-\(\mathrm{SD}(n, k, w)\) vyžaduje nájsť \(x \in \mathbb{F}^n\) také, že
- <div class="container" style="
-    text-align: center;
-    border: 3px solid #ffbc2c;
-    font-weight: bold;
-    margin:15px;
-    border-radius: 15px;
-    padding-top: 0px;">\[
-xH^T = y \quad \text{a} \quad \omega(x) = w.
-\]
-Na najdenie \( x\) pre ktoré platía obe podmienky zatiaľ neexistuje efektívny algoritmus, dokonca ani kvantový.</div>-->
-
+          
   <b>Definícia:</b><br>
 Pre kladné celé čísla \(n, w\) a \(s\) rozdelenie \(\mathrm{QCSD}(n, w)\)
 náhodne vyberie paritnú kontrolnú maticu
@@ -79,7 +52,7 @@ spolu s vektorom
 \]
 a vydá
 \[
-(H, x\mathbf{H}^T).
+(H, \mathbf{x}H^T).
 \]
 Pre kladné celé čísla \(n, w, s\), náhodnú paritnú maticu \(H\) kvazicyklického kódu
 indexu \(s\) a \(\mathbf{y} \xleftarrow{\$} \mathbb{F}^{sn-n}\), problém \(\mathrm{QCSD}(n, w)\)
@@ -98,28 +71,28 @@ také, že
 \[
 \omega(x_i) = w \quad \text{pre } i = 1,\ldots,s,
 \qquad\text{a}\qquad
-\mathbf{y} = x\mathbf{H}^T.
+\mathbf{y} = \mathbf{x}H^T.
 \]
-Na najdenie \( x\) pre ktoré platía obe podmienky zatiaľ neexistuje efektívny algoritmus, dokonca ani kvantový.</div>
+Na najdenie \( \mathbf{x}\) pre ktoré platía obe podmienky zatiaľ neexistuje efektívny algoritmus, dokonca ani kvantový.</div>
 
 <h2>Výskyt v HQC:</h2>
 <div class="columns">
     <div class="container column" style="font-size: 0.9rem;">
-        $$s = x + y \cdot h$$ To je ekvivalentný zápis k:
-        $$s = [x \ \ y] \cdot \begin{bmatrix} I_n \\ \text{rot}(h)^T \end{bmatrix}$$ 
+        $$\mathbf{s} = \mathbf{x} + \mathbf{y} \cdot \mathbf{h}$$ To je ekvivalentný zápis k:
+        $$\mathbf{s} = [\mathbf{x} \ \ \mathbf{y}] \cdot \begin{bmatrix} I_n \\ \text{rot}(\mathbf{h})^T \end{bmatrix}$$ 
         <div class="container" style="
     text-align: center;
     border: 3px solid #ffbc2c;
-    font-weight: bold;">Riešiť pre \([x \ \ y]\) znamená riešiť QCSD problem</div>
+    font-weight: bold;">Riešiť pre \([\mathbf{x} \ \ \mathbf{y}]\) znamená riešiť QCSD problem</div>
     </div>
     <div class="container column" style="font-size: 0.9rem;">
-        $$u = r_1 + r_2 \cdot h$$
+        $$\mathbf{u} = \mathbf{r_1} + \mathbf{r_2} \cdot \mathbf{h}$$
         To je ekvivalentný zápis k:
-        $$u = [r_1 \ \ r_2] \cdot \begin{bmatrix} I_n \\ \text{rot}(h)^T \end{bmatrix}$$ 
+        $$\mathbf{u} = [\mathbf{r_1} \ \ \mathbf{r_2}] \cdot \begin{bmatrix} I_n \\ \text{rot}(\mathbf{h})^T \end{bmatrix}$$ 
         <div class="container" style="
     text-align: center;
     border: 3px solid #ffbc2c;
-    font-weight: bold;">Riešiť pre \([r_1 \ \ r_2]\) znamená riešiť QCSD problem</div>
+    font-weight: bold;">Riešiť pre \([\mathbf{r_1} \ \ \mathbf{r_2}]\) znamená riešiť QCSD problem</div>
     </div>
 </div>
             <div class="containervnutro" style=" box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);

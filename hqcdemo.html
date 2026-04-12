@@ -77,7 +77,8 @@
                                     </tbody>
                                 </table>
                                 V tomto DEME použiváme <b>repetitičný</b> kód (generuje ho matica G).<br>
-                                Skutočne HQC používa efektívne <b>Reed-Solomon</b> a <b>Reed-Muller</b> kódy.
+                                Skutočne HQC používa efektívne <b>Reed-Solomon</b> a <b>Reed-Muller</b> kódy.<br>
+                                <b>Operácie s maticami a vektormi sú v poli \(\mathbb{F}_2\)</b>
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
@@ -102,18 +103,24 @@
                                 <b>h=</b>
                                 <div id="h-display" class="vector-display">0000000000000000</div>
                                 <div class="tooltip-text">
-                                    dlžka vektora=n=21<br>
+                                    dĺžka vektora=n=21<br>
                                     Na každom člene je 50% šanca na 0/1
                                     <span class="tooltip-arrow"></span>
                                 </div>
                             </div>
                             <button onclick="generateRandomH()">Generovať nové h</button>
                         </div>
+                        <div class="tooltip left">
                         <div>\( w= \)
                             <input type="number" id="w-input" value="1" class="small-input" min="0" max="9">
                             \(w_e=\)<input type="number" id="w_e-input" value="1" class="small-input" min="0" max="9">
                             \(w_r=\)<input type="number" id="w_r-input" value="1" class="small-input" min="0" max="9">
                         </div>
+                         <div class="tooltip-text">
+                                    Váha vektora=počet jednotiek vo vektore(v binárnom poli)
+                                    <span class="tooltip-arrow"></span>
+                                </div>
+                    </div>
                         <div id="check-msg"></div>
                         <button onclick="aplikuj_vahy()">Aplikovať nové váhy</button>
                     </div>
@@ -133,8 +140,8 @@
                                 </div>
                             </div>
                             <div class="tooltip-text">
-                                dlžka vektorov=n=21<br>
-                                Váha vektorov=w<br>
+                                dĺžka vektorov=n=21<br>
+                                váha vektorov=w<br>
                                 Pozícia jednotiek je náhodná.
                                 <span class="tooltip-arrow"></span>
                             </div>
@@ -155,10 +162,6 @@
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
-                        <!--<div style="margin:8px"> \(s=x+y\cdot h\) <a href="rot.html"
-                                style="margin:10px 20px; color:rgb(0, 60, 255);font-weight: 800;font-size: 0.75rem;">Násobenie
-                                polynómov pomocou rot matíc</a>
-                        </div>-->
 
                         <div style="display:flex;align-items:center;gap:6px;"><b>s=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
@@ -236,8 +239,8 @@
                                 <div id="e-display" class="vector-display" style="background: #ea9090;">0000000000000000
                                 </div>
                                 <div class="tooltip-text">
-                                    dlžka vektora=n=21<br>
-                                    Váha vektora=\(w_e\).<br>
+                                    dĺžka vektora=n=21<br>
+                                    váha vektora=\(w_e\).<br>
                                     Pozícia jednotiek je náhodná.
                                     <span class="tooltip-arrow"></span>
                                 </div>
@@ -261,8 +264,8 @@
                                 </div>
                             </div>
                             <div class="tooltip-text">
-                                dlžka vektorov=n=21<br>
-                                Váha vektorov=\(w_r\)<br>
+                                dĺžka vektorov=n=21<br>
+                                váha vektorov=\(w_r\)<br>
                                 Pozícia jednotiek je náhodná.
                                 <span class="tooltip-arrow"></span>
                             </div>
@@ -284,10 +287,6 @@
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
-                        <!--<div style="margin:8px"> \(\) <a href="rot.html"
-                                style="margin:10px 20px; color:rgb(0, 60, 255);font-weight: 800;font-size: 0.75rem;">Násobenie
-                                polynómov pomocou rot matíc</a>
-                        </div>-->
 
                         <div style="display:flex;align-items:center;gap:6px;"><b>u=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
@@ -343,7 +342,7 @@
                                 <button id="bit-toggle" class="bit-btn state-1" onclick="zmen_spravu(this,2)">1</button>
                             </div>
                             <div class="tooltip-text">
-                                dlžka správy=k=3<br>
+                                dĺžka správy=k=3<br>
                                 Pri skutočnom HQC je k dostatočne velké číslo.
                                 <span class="tooltip-arrow"></span>
                             </div>
@@ -381,10 +380,6 @@
                                 <span class="tooltip-arrow"></span>
                             </div>
                         </div>
-                        <!--<div style="margin:8px"> \(v=mG+r_2\cdot s + e\) <a href="rot.html"
-                                style="margin:10px 20px; color:rgb(0, 60, 255);font-weight: 800;font-size: 0.75rem;">Násobenie
-                                polynómov pomocou rot matíc</a>
-                        </div>-->
 
                         <div style="display:flex;align-items:center;gap:4px;"><b>v=</b>
                             <div class="containervnutro" style="margin:0px;padding: 0px;">
@@ -461,7 +456,7 @@
                 <div class="tooltip left">
                     <a href="qcsd.html" class="card-link">
                         <div class="arrow arrow--right">
-                            <b>Zašifrovana informácia</b><br><span style="background: #f9d4af;padding:0px 2px">v</span>
+                            <b>Zašifrovaná informácia</b><br><span style="background: #f9d4af;padding:0px 2px">v</span>
                             a
                             <span style="background: #c39a71;padding:0px 2px">u</span>
                         </div>
@@ -589,7 +584,6 @@
                 </div>
             </div>
         </div>
-        <!--<div class="container" style="margin-bottom: 50px;">-->
             <div class="columns">
                 <div class="container column scenar-box" data-title="Alternatívny scénar">Zvoľte <b>vysoké hodnoty váh</b>, tak že
                     zasvieti <b>červené</b> upozornenie.<br>Opakovane klikajte <button style="  background-color: #27ae60; 
@@ -600,7 +594,6 @@
   border-radius: 8px;    
   box-shadow: 0px 5px 15px rgba(0,0,0,0.3); ">Refreshni parametre</button> a sledujte dešifrovanú správu.<br><b>Dešifrovanie nemusí fungovať.</b><br>
                     Všimajte si, ako sa rozložil šum pri zlom dešifrovaní. </div>
-            <!--</div>-->
         </div>
     </main>
 </body>
