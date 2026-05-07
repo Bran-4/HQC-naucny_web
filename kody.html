@@ -99,10 +99,9 @@
                     }
                 }
                 else{
-                    input.value = (i === j) ? '1' : '0'; // Predvyplníme niečo rozumné
+                    input.value = (i === j) ? '1' : '0'; 
                 }
                 input.onkeypress = (e) => {
-                    // Povoliť len 0 a 1
                     if (e.key !== '0' && e.key !== '1') e.preventDefault();
                 };
                 input.onfocus = (e) => e.target.select();
@@ -125,7 +124,7 @@
         
         for (let i = 0; i < inputs.length; i++) {
             let val = parseInt(inputs[i].value);
-            if (isNaN(val) || (val !== 0 && val !== 1)) val = 0; // Fallback pre chyby
+            if (isNaN(val) || (val !== 0 && val !== 1)) val = 0; 
             currentRow.push(val);
             if (currentRow.length === n) {
                 G.push(currentRow);
@@ -134,42 +133,35 @@
         }
 
         // 2. Kontrola lineárnej nezávislosti (Rank matice)
-        const rank = calculateRank(JSON.parse(JSON.stringify(G)), k, n); // Pass copy
+        const rank = calculateRank(JSON.parse(JSON.stringify(G)), k, n); 
         const isIndependent = (rank === k);
 
         // 3. Generovanie všetkých slov
-        // Prechádzame čísla od 0 do 2^k - 1, prevedieme na binárne a násobíme maticou
-        let allWords = new Set(); // Set automaticky odstráni duplicity ak sú vektory závislé
+        let allWords = new Set(); 
         
         const totalCombinations = Math.pow(2, k);
         for (let i = 0; i < totalCombinations; i++) {
-            // i reprezentuje informačný vektor
             let codeword = new Array(n).fill(0);
             
             for (let bit = 0; bit < k; bit++) {
-                // Ak je bit v informačnom slove 1, pripočítame (XOR) príslušný riadok matice
                 if ((i >> bit) & 1) {
                     for (let col = 0; col < n; col++) {
-                        codeword[col] ^= G[k - 1 - bit][col]; // k-1-bit pre správne poradie
+                        codeword[col] ^= G[k - 1 - bit][col]; 
                     }
                 }
             }
             allWords.add(codeword.join(''));
         }
 
-        // Konverzia Setu späť na pole pre spracovanie
         const wordsArray = Array.from(allWords).sort();
 
         // 4. Výpočet minimálnej vzdialenosti
-        // Pre lineárne kódy je min. vzdialenosť rovná minimálnej váhe nenulových slov
-        // Ale pre istotu (a univerzálnosť) porovnáme hrubou silou všetky dvojice
         let minDistance = n; 
         if (wordsArray.length > 1) {
-            // Rýchlejšia metóda pre lineárne kódy: min váha nenulových slov
             minDistance = n;
             let foundNonZero = false;
             for (let w of wordsArray) {
-                if (w.indexOf('1') === -1) continue; // Preskoč nulové slovo
+                if (w.indexOf('1') === -1) continue; 
                 foundNonZero = true;
                 let weight = 0;
                 for (let char of w) {
@@ -177,7 +169,7 @@
                 }
                 if (weight < minDistance) minDistance = weight;
             }
-            if (!foundNonZero) minDistance = 0; // Iba nulové slová
+            if (!foundNonZero) minDistance = 0; 
         } else {
             minDistance = 0;
         }
@@ -201,7 +193,6 @@
         outputDiv.innerHTML = '';
         wordsArray.forEach(word => {
             const div = document.createElement('div');
-            // Zvýrazníme nulové slovo
             if (word.indexOf('1') === -1) div.style.color = '#aaa';
             div.innerText = word;
             outputDiv.appendChild(div);
@@ -214,17 +205,14 @@
         let col = 0;
         
         for (let row = 0; row < rows && col < cols; col++) {
-            // Nájdi pivot v aktuálnom stĺpci
             let pivot = row;
             while (pivot < rows && matrix[pivot][col] === 0) {
                 pivot++;
             }
             
             if (pivot < rows) {
-                // Vymeň riadky
                 [matrix[row], matrix[pivot]] = [matrix[pivot], matrix[row]];
                 
-                // Vynuluj ostatné riadky v tomto stĺpci
                 for (let i = 0; i < rows; i++) {
                     if (i !== row && matrix[i][col] === 1) {
                         for (let j = col; j < cols; j++) {
